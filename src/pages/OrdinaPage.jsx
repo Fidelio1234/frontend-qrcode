@@ -43,15 +43,16 @@ export default function OrdinaPage() {
 
   
   // ✅ CONTROLLO STAMPANTE LOCALE
-  useEffect(() => {
-    const checkStampante = async () => {
-      try {
-        const response = await fetch('http://localhost:3002/api/health');
-        setStampanteOnline(response.ok);
-      } catch {
-        setStampanteOnline(false);
-      }
-    };
+// ✅ CONTROLLO STAMPANTE LOCALE
+useEffect(() => {
+  const checkStampante = async () => {
+    try {
+      const response = await fetch('http://localhost:3002/api/health');
+      setStampanteOnline(response.ok);
+    } catch {
+      setStampanteOnline(false);
+    }
+  };
 
     checkStampante();
     const interval = setInterval(checkStampante, 10000);
@@ -59,13 +60,14 @@ export default function OrdinaPage() {
   }, []);
 
   // ✅ FUNZIONE STAMPA LOCALE
-  const stampaLocale = async (ordineData) => {
-    try {
-      const response = await fetch('http://localhost:3002/api/stampa-ordine', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ordine: ordineData })
-      });
+// ✅ FUNZIONE STAMPA LOCALE
+const stampaLocale = async (ordineData) => {
+  try {
+    const response = await fetch('http://localhost:3002/api/stampa-ordine', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ordine: ordineData })
+    });
       
       if (!response.ok) {
         throw new Error('Errore stampa locale');
