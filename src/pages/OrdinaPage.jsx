@@ -530,20 +530,33 @@ export default function OrdinaPage() {
   }, [mostraCopertoModal]);
 
   // ✅ CONTROLLO STAMPANTE LOCALE
-  useEffect(() => {
-    const checkStampante = async () => {
-      try {
-        const response = await fetch('http://172.20.10.2:3002/api/health');
-        setStampanteOnline(response.ok);
-      } catch {
+// ✅ CONTROLLO STAMPANTE LOCALE - VERSIONE DEBUG
+useEffect(() => {
+  const checkStampante = async () => {
+    try {
+      console.log('🔍 Controllo stampante in corso...');
+      const response = await fetch('http://172.20.10.2:3002/api/health');
+      
+      console.log('📡 Status response:', response.status);
+      console.log('✅ Response ok:', response.ok);
+      
+      if (response.ok) {
+        setStampanteOnline(true);
+        console.log('🎉 Stampante impostata come ONLINE');
+      } else {
         setStampanteOnline(false);
+        console.log('❌ Stampante impostata come OFFLINE - Status non ok');
       }
-    };
+    } catch (error) {
+      setStampanteOnline(false);
+      console.log('💥 Errore connessione stampante:', error.message);
+    }
+  };
 
-    checkStampante();
-    const interval = setInterval(checkStampante, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  checkStampante();
+  const interval = setInterval(checkStampante, 5000);
+  return () => clearInterval(interval);
+}, []);
 
   // ✅ FUNZIONE STAMPA LOCALE
   const stampaLocale = async (ordineData) => {
