@@ -533,7 +533,7 @@ export default function OrdinaPage() {
   useEffect(() => {
     const checkStampante = async () => {
       try {
-        const response = await fetch('http://127.20.10.8:3002/api/health');  // CAMBIARE IP WIFI
+        const response = await fetch('http://localhost:3002/api/health');
         setStampanteOnline(response.ok);
       } catch {
         setStampanteOnline(false);
@@ -548,7 +548,7 @@ export default function OrdinaPage() {
   // ✅ FUNZIONE STAMPA LOCALE
   const stampaLocale = async (ordineData) => {
     try {
-      const response = await fetch('http://127.20.10.8:3002/api/stampa-ordine', { // CAMBIARE IP WIFI
+      const response = await fetch('http://localhost:3002/api/stampa-ordine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ordine: ordineData })
