@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import './OrdinaPage.css';
 
@@ -43,16 +41,15 @@ export default function OrdinaPage() {
 
   
   // ✅ CONTROLLO STAMPANTE LOCALE
-// ✅ CONTROLLO STAMPANTE LOCALE
-useEffect(() => {
-  const checkStampante = async () => {
-    try {
-      const response = await fetch('http://localhost:3002/api/health');
-      setStampanteOnline(response.ok);
-    } catch {
-      setStampanteOnline(false);
-    }
-  };
+  useEffect(() => {
+    const checkStampante = async () => {
+      try {
+        const response = await fetch('http://172.20.10.2:3002/api/health');
+        setStampanteOnline(response.ok);
+      } catch {
+        setStampanteOnline(false);
+      }
+    };
 
     checkStampante();
     const interval = setInterval(checkStampante, 10000);
@@ -60,14 +57,13 @@ useEffect(() => {
   }, []);
 
   // ✅ FUNZIONE STAMPA LOCALE
-// ✅ FUNZIONE STAMPA LOCALE
-const stampaLocale = async (ordineData) => {
-  try {
-    const response = await fetch('http://localhost:3002/api/stampa-ordine', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ordine: ordineData })
-    });
+  const stampaLocale = async (ordineData) => {
+    try {
+      const response = await fetch('http://172.20.10.2:3002/api/stampa-ordine', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ordine: ordineData })
+      });
       
       if (!response.ok) {
         throw new Error('Errore stampa locale');
@@ -294,21 +290,6 @@ const stampaLocale = async (ordineData) => {
     (s, p) => s + (Number(p.prezzo) * Number(p.quantita)), 0
   );
   const totaleArticoli = carrello.reduce((s, p) => s + p.quantita, 0);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
