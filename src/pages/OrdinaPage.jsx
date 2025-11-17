@@ -530,8 +530,7 @@ export default function OrdinaPage() {
   }, [mostraCopertoModal]);
 
 
-
-  /*
+  
   // ✅ CONTROLLO STAMPANTE LOCALE
   useEffect(() => {
     const checkStampante = async () => {
@@ -566,46 +565,6 @@ export default function OrdinaPage() {
       throw new Error('Servizio stampa non disponibile');
     }
   };
-
-
-  */
-
-
-
-
-
-
-// ✅ FUNZIONE STAMPA SEMPLICE E SICURA
-const stampaLocale = async (ordineData) => {
-  try {
-    // USA SEMPRE IL BACKEND RENDER (HTTPS) - NON L'IP LOCALE!
-    const response = await fetch('https://il-tuo-backend.render.com/api/stampa-remota', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ordine: ordineData })
-    });
-    
-    const result = await response.json();
-    
-    if (result.success) {
-      console.log('✅ Ordine stampato!');
-      return result;
-    } else {
-      // Anche se la stampa fallisce, l'ordine è salvato
-      console.log('⚠️ Ordine salvato ma stampante offline');
-      throw new Error(result.message || 'Stampante non disponibile');
-    }
-    
-  } catch (error) {
-    console.error('❌ Errore:', error);
-    throw new Error('Servizio temporaneamente non disponibile');
-  }
-};
-
-
-
-
-
 
   // ✅ PRIMA CARICA TUTTI I DATI INIZIALI
   useEffect(() => {
