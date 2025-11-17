@@ -1,0 +1,182 @@
+/* 🏠 HOME PAGE - CLEAN DESIGN CON WiFi */
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 🔹 HEADER */
+.home-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.home-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+/* 🔹 GRIGLIA TAVOLI COMPATTA */
+.tavoli-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 🔹 CARD TAVOLO */
+.tavolo-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.tavolo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 AREA WiFi SOPRA IL QR CODE */
+.wifi-info {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px dashed #dee2e6;
+}
+
+.wifi-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wifi-password {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #495057;
+  font-family: 'Courier New', monospace;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+/* 🔹 QR CODE */
+.qr-container {
+  margin: 10px 0;
+}
+
+.qr-code {
+  border-radius: 10px;
+  border: 3px solid white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.tavolo-card:hover .qr-code {
+  border-color: #667eea;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 🔹 NUMERO TAVOLO */
+.tavolo-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-top: 10px;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+/* 🔹 INDICATORE OCCUPATO (solo colore rosso) */
+.tavolo-occupato .qr-code {
+  border-color: #e74c3c;
+}
+
+.tavolo-occupato .tavolo-number {
+  background: linear-gradient(135deg, #ffeaea, #ffcccc);
+  color: #c0392b;
+}
+
+/* 🔹 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 20px 15px;
+  }
+  
+  .home-title {
+    font-size: 2rem;
+  }
+  
+  .home-subtitle {
+    font-size: 1rem;
+  }
+  
+  .tavoli-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+  }
+  
+  .tavolo-card {
+    padding: 15px;
+  }
+  
+  .wifi-info {
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .wifi-password {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tavoli-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .home-title {
+    font-size: 1.8rem;
+  }
+}
+
+/* 🔹 LOADING INDICATOR */
+.loading-indicator {
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+/* 🔹 ANIMAZIONE SOTTILE PER CAMBIO STATO */
+@keyframes fadeColor {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+.tavolo-card {
+  animation: fadeColor 0.5s ease;
+}

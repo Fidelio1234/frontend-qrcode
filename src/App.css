@@ -1,0 +1,143 @@
+/* App.css */
+
+/* Corpo della pagina */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Navbar */
+nav {
+  background-color: #333; /* grigio scuro */
+  padding: 12px 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav a {
+  color: #0a0000;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 15px;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffd700; /* dorato al passaggio del mouse */
+}
+
+/* Contenitore generale delle pagine */
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* Titoli */
+h2, h3, h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+/* Liste menù */
+.menu-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Riepilogo ordine */
+.riepilogo {
+  margin-top: 30px;
+}
+
+.riepilogo ul {
+  list-style: none;
+  padding: 0;
+}
+
+.riepilogo li {
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totale {
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* Pulsanti */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.invia-btn {
+  background-color: #28a745;
+  color: #fff;
+  margin-top: 15px;
+}
+
+.invia-btn:hover {
+  background-color: #218838;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.elimina-btn {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+button.elimina-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Messaggi */
+.messaggio {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  nav a {
+    display: block;
+    margin: 5px 0;
+  }
+}

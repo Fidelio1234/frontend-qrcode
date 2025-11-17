@@ -1,0 +1,543 @@
+/* 🏢 OPERATORE PAGE - DESIGN COMPATTO E ALLINEATO */
+.operatore-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.operatore-container h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 🔹 HEADER TAVOLO */
+.tavolo-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-chiudi {
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.button-chiudi:hover {
+  background: #c0392b;
+}
+
+.avviso-non-evasi {
+  background: #fff3cd;
+  color: #856404;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ffc107;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.messaggio-successo {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #c3e6cb;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* 🔹 CONTENITORE ORDINI - ALTEZZA AUTOMATICA */
+.ordini-scroll {
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  min-height: 200px;
+}
+
+/* 🔹 LISTA ORDINI */
+.ordini-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 15px;
+}
+
+/* 🔹 CARD ORDINE */
+.ordine-item {
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3498db;
+}
+
+.ordine-item.evaso {
+  border-left-color: #27ae60;
+  background: #f8fff9;
+  opacity: 0.8;
+}
+
+/* 🔹 HEADER ORDINE - PIÙ GRANDE */
+.ordine-header {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.badge-non-evaso {
+  background: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* 🔹 RIGHE ORDINE - TESTI PIÙ GRANDI */
+.ordine-dettagli {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ordine-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.1rem; /* AUMENTATO da 1rem */
+}
+
+.ordine-riga:last-child {
+  border-bottom: none;
+}
+
+.quantita {
+  font-weight: 600;
+  color: #2c3e50;
+  min-width: 50px; /* AUMENTATO da 40px */
+  font-size: 1.1rem; /* AGGIUNTO */
+}
+
+.prodotto {
+  flex: 1;
+  margin: 0 15px; /* AUMENTATO da 10px */
+  color: #495057;
+  font-size: 1.1rem; /* AGGIUNTO */
+}
+
+.prezzo {
+  font-weight: 600;
+  color: #27ae60;
+  min-width: 80px; /* AUMENTATO da 70px */
+  text-align: right;
+  font-size: 1.1rem; /* AGGIUNTO */
+}
+
+/* 🔹 PER AREA OPERATORE (nascondi il prezzo) */
+.area-operatore .prezzo {
+  display: none;
+}
+
+.area-operatore .ordine-riga {
+  justify-content: flex-start;
+}
+
+/* 🔹 BOTTONE EVASO */
+.button-evaso {
+  padding: 10px 20px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.button-evaso:hover {
+  background: #219653;
+}
+
+/* 🔹 TOTALE TAVOLO */
+.totale-tavolo {
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-align: center;
+  background: #27ae60;
+  color: white;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.nessun-ordine {
+  font-style: italic;
+  color: #7f8c8d;
+  text-align: center;
+  padding: 40px;
+  font-size: 1.1rem;
+}
+
+/* 🔹 MODAL */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 450px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  color: #dc3545;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.modal-content p {
+  margin-bottom: 12px;
+  line-height: 1.4;
+  color: #495057;
+}
+
+.ordini-non-evasi-lista {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 12px 0;
+  border: 1px solid #dee2e6;
+}
+
+.ordini-non-evasi-lista h4 {
+  margin-bottom: 8px;
+  color: #495057;
+  font-weight: 600;
+}
+
+.ordini-non-evasi-lista ul {
+  list-style: none;
+  padding: 0;
+}
+
+.ordini-non-evasi-lista li {
+  padding: 6px 0;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 0.85rem;
+}
+
+.ordini-non-evasi-lista li:last-child {
+  border-bottom: none;
+}
+
+.dettagli-chiusura {
+  background: #fff3cd;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 12px 0;
+  border: 1px solid #ffc107;
+}
+
+.dettagli-chiusura h4 {
+  margin-bottom: 8px;
+  color: #856404;
+  font-weight: 600;
+}
+
+.dettagli-chiusura ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dettagli-chiusura li {
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(133, 100, 4, 0.2);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.dettagli-chiusura li:last-child {
+  border-bottom: none;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.button-ok,
+.button-annulla {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.button-ok:hover,
+.button-annulla:hover {
+  background: #5a6268;
+}
+
+.button-conferma {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.button-conferma:hover {
+  background: #c82333;
+}
+
+/* 🔹 RESPONSIVE */
+@media (max-width: 768px) {
+  .operatore-container {
+    padding: 15px;
+  }
+  
+  .tavolo-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .ordine-header {
+    font-size: 1.1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .ordine-riga {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 1rem; /* Leggermente più piccolo su mobile */
+  }
+  
+  .prezzo {
+    text-align: left;
+    margin-left: 50px;
+  }
+}
+
+/* 🔹 FILTRI STATO ORDINI */
+.filtri-stato {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  padding: 8px 16px;
+  background: #e9ecef;
+  color: #495057;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+  background: #dee2e6;
+}
+
+.filtro-btn.attivo {
+  background: #3498db;
+  color: white;
+}
+
+/* 🔹 INFO ORDINE MIGLIORATA */
+.ordine-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tavolo-numero {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.ordine-stato {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.05);
+}
+
+.ordine-data {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* 🔹 INFO CHIUSURA */
+.info-chiusura {
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #6c757d;
+  border-left: 3px solid #95a5a6;
+}
+
+
+
+/* ✅ STILE PER TAVOLI CHIUSI */
+.tavolo-chiuso-group {
+  background: #f8f9fa;
+  border: 2px solid #95a5a6;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.tavolo-chiuso-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tavolo-chiuso-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2em;
+}
+
+.totale-tavolo-chiuso {
+  background: #27ae60;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.ordine-item.chiuso {
+  background: white;
+  margin: 10px 0;
+  border-left: 4px solid #95a5a6 !important;
+}
+
+.ordine-totale {
+  background: #ecf0f1;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: right;
+  color: #2c3e50;
+}
+
+
+.tavolo-header {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.button-stampa-totale {
+  background: #9b59b6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.button-stampa-totale:hover:not(:disabled) {
+  background: #8e44ad;
+}
+
+.button-stampa-totale:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-chiudi {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.button-chiudi:hover {
+  background: #c0392b;
+}
