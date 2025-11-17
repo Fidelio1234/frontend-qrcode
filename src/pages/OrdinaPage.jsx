@@ -530,49 +530,25 @@ export default function OrdinaPage() {
   }, [mostraCopertoModal]);
 
   // ✅ CONTROLLO STAMPANTE LOCALE
-// ✅ CONTROLLO STAMPANTE LOCALE - VERSIONE DEBUG
-// ✅ CONTROLLO SEMPLIFICATO
-useEffect(() => {
-  let mounted = true;
-  
-  const checkStampante = async () => {
-    if (!mounted) return;
-    
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000);
-      
-      const response = await fetch('http://172.20.10.2:3002/api/health', {
-        signal: controller.signal
-      });
-      
-      clearTimeout(timeoutId);
-      
-      if (mounted) {
+  useEffect(() => {
+    const checkStampante = async () => {
+      try {
+        const response = await fetch('http://localhost:3002/api/health');
         setStampanteOnline(response.ok);
-      }
-    } catch (error) {
-      if (mounted) {
+      } catch {
         setStampanteOnline(false);
       }
-    }
-  };
+    };
 
-  // Primo controllo immediato
-  checkStampante();
-  
-  // Poi ogni 5 secondi
-  const interval = setInterval(checkStampante, 5000);
-  
-  return () => {
-    mounted = false;
-    clearInterval(interval);
-  };
-}, []);
+    checkStampante();
+    const interval = setInterval(checkStampante, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
   // ✅ FUNZIONE STAMPA LOCALE
   const stampaLocale = async (ordineData) => {
     try {
-      const response = await fetch('http://172.20.10.2:3002/api/stampa-ordine', {
+      const response = await fetch('http://localhost:3002/api/stampa-ordine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ordine: ordineData })
