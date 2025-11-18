@@ -44,7 +44,7 @@ export default function OrdinaPage() {
   useEffect(() => {
     const checkStampante = async () => {
       try {
-        const response = await fetch('http://172.20.10.2:3002/api/health');
+        const response = await fetch('http://172.10.10.2:3002/api/health');
         setStampanteOnline(response.ok);
       } catch {
         setStampanteOnline(false);
@@ -59,7 +59,7 @@ export default function OrdinaPage() {
   // ✅ FUNZIONE STAMPA LOCALE
   const stampaLocale = async (ordineData) => {
     try {
-      const response = await fetch('http://172.20.10.2:3002/api/stampa-ordine', {
+      const response = await fetch('http://localhost:3002/api/stampa-ordine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ordine: ordineData })
@@ -291,17 +291,12 @@ export default function OrdinaPage() {
   );
   const totaleArticoli = carrello.reduce((s, p) => s + p.quantita, 0);
 
-
-
-
-
-
-// ✅ INVIA ORDINE - VERSIONE CORRETTA CON STAMPA LOCALE
-const inviaOrdine = async () => {
-  if (carrello.length === 0) {
-    setMessaggio('Il carrello è vuoto');
-    return;
-  }
+  // ✅ INVIA ORDINE CON PULIZIA LOCALE MA TAVOLO OCCUPATO
+  const inviaOrdine = async () => {
+    if (carrello.length === 0) {
+      setMessaggio('Il carrello è vuoto');
+      return;
+    }
 
   let persone = numeroPersone;
   const copertoItem = carrello.find(i => i.id === 'coperto');
