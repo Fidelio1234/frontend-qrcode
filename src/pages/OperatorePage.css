@@ -175,7 +175,7 @@
 /* 🔹 BOTTONE EVASO */
 .button-evaso {
   padding: 10px 20px;
-  background: #27ae60;
+  background: red;
   color: white;
   border: none;
   border-radius: 4px;
@@ -196,7 +196,7 @@
   font-weight: 700;
   font-size: 1.3rem;
   text-align: center;
-  background: #27ae60;
+  background: #9fcc79;
   color: white;
   padding: 15px;
   border-radius: 6px;
@@ -389,9 +389,10 @@
 }
 
 .filtro-btn {
-  padding: 8px 16px;
-  background: #e9ecef;
-  color: #495057;
+  font-size: 15px;
+  padding: 18px 50px;
+  background: #9fe96eff;
+  color: #101010;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -430,7 +431,7 @@
 }
 
 .ordine-data {
-  font-size: 0.8rem;
+  font-size: 1.20rem;
   color: #7f8c8d;
   font-style: italic;
 }
@@ -540,4 +541,103 @@
 
 .button-chiudi:hover {
   background: #c0392b;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* STILE PULSANTE STAMPA TOTALE */
+.button-stampa-totale {
+  background: linear-gradient(135deg, #bfdd53, #c9eb06);
+  color: rgb(7, 6, 6);
+  border: none;
+  padding: 7px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 780;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  margin-left: 430px;
+}
+
+.button-stampa-totale:hover {
+  background: linear-gradient(135deg, #219653, #27ae60);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
+}
+
+.button-stampa-totale:active {
+  transform: translateY(0);
+}
+
+.button-stampa-totale:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* HEADER TAVOLO CON PIÙ PULSANTI */
+.tavolo-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.button-chiudi {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.button-chiudi:hover {
+  background: linear-gradient(135deg, #c0392b, #a93226);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+}
+
+
+
+.button-stampa-totale-1{
+ background: linear-gradient(135deg, #e2eac5, #cbe389);
+
+}
+
+
+
+
+
+
+
+
+/* Stile speciale per la riga del coperto */
+.ordine-riga:has(.prodotto:contains('Coperto')) {
+  background-color: #f8f9fa;
+  border-left: 3px solid #28a745;
+}
+
+.ordine-riga:has(.prodotto:contains('Coperto')) .prodotto {
+  font-weight: bold;
+  color: #28a745;
 }

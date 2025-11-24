@@ -1,0 +1,6 @@
+{
+  "codice": "123456",
+  "attivo": true,
+  "timeoutMinuti": 15,
+  "ultimoAccesso": null
+}

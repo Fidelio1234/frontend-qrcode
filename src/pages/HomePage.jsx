@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import './HomePage.css';
@@ -42,7 +40,7 @@ export default function HomePage() {
             >
               {/* AREA WiFi - MODIFICA QUI LA PASSWORD */}
               <div className="wifi-info">
-                <div className="wifi-label">WiFi Password</div>
+                {/* <div className="wifi-label">WiFi Password</div>*/}
                 <div className="wifi-password">Ristorante123</div>
               </div>
 
@@ -60,6 +58,10 @@ export default function HomePage() {
               <div className="tavolo-number">
                 Tavolo {tavolo}
               </div>
+
+                <div className={`tavolo-stato ${isOccupato ? 'occupato' : 'libero'}`}>
+                  {isOccupato ? '🟡 Occupato' : '🟢 Libero'}
+                </div>
             </div>
           );
         })}
@@ -67,3 +69,13 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
