@@ -454,3 +454,118 @@ body {
     font-size: 13px;
   }
 }
+
+
+/* App.css - Solo lo stretto necessario */
+
+.security-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.security-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.modal-title {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.modal-message {
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  letter-spacing: 1px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.modal-hint {
+  margin-top: 15px;
+  color: #95a5a6;
+  font-size: 14px;
+}
+
+/* Navbar semplice */
+.main-navbar {
+  background: #2c3e50;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgba(255,255,255,0.1);
+}
+
+.nav-separator {
+  color: #7f8c8d;
+}
+
+.logout-button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-button:hover {
+  background: #c0392b;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.main-content.with-navbar {
+  padding-top: 20px;
+}
