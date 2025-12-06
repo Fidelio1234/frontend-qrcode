@@ -719,7 +719,6 @@ export default AppWrapper;
 
 
 
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
@@ -734,15 +733,35 @@ function App() {
   const mostraNavbar = !location.pathname.startsWith('/ordina');
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [justLoggedOut, setJustLoggedOut] = useState(false); // 🔴 NUOVO STATO
   const passwordRef = useRef(null);
+  const preventAutoFillRef = useRef(false); // 🔴 REF PER BLOCCARE AUTOFILL
   
-  // ✅ PASSWORD
   const SITE_PASSWORD = 'service';
 
-  // ✅ VERIFICA AUTENTICAZIONE
   useEffect(() => {
     console.log('🔐 Controllo autenticazione...');
+    
+    // 🔴 CONTROLLA SE APPENA LOGGATO OUT
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('loggedout') === 'true') {
+      console.log('🔄 Pagina caricata dopo logout');
+      setJustLoggedOut(true);
+      
+      // Rimuovi parametro URL
+      window.history.replaceState({}, '', '/');
+      
+      // Pulisci storage
+      localStorage.removeItem('restaurant_auth');
+      localStorage.removeItem('auth_timestamp');
+      
+      // 🔴 BLOCCA AUTOFILL PER 3 SECONDI
+      preventAutoFillRef.current = true;
+      setTimeout(() => {
+        preventAutoFillRef.current = false;
+        setJustLoggedOut(false);
+      }, 3000);
+    }
     
     const authData = localStorage.getItem('restaurant_auth');
     const authTimestamp = localStorage.getItem('auth_timestamp');
@@ -765,7 +784,6 @@ function App() {
     setCheckingAuth(false);
   }, []);
 
-  // ✅ SUCCESSO AUTENTICAZIONE
   const handleAuthSuccess = useCallback(() => {
     console.log('🎉 Autenticazione riuscita!');
     setIsAuthorized(true);
@@ -773,16 +791,19 @@ function App() {
     localStorage.setItem('auth_timestamp', new Date().toISOString());
   }, []);
 
-  // ✅ VERIFICA PASSWORD IN TEMPO REALE (SENZA LOOP)
+  // 🔴 VERIFICA PASSWORD CON BLOCCCO AUTOFILL
   const checkPasswordRealTime = useCallback((password) => {
-    // 🔴 IMPORTANTE: Ignora se stringa vuota o troppo corta
-    if (!password || password.trim() === '') return;
+    // 🔴 BLOCCA SE APPENA LOGGATO OUT O AUTOFILL BLOCCATO
+    if (preventAutoFillRef.current) {
+      console.log('🚫 Autofill bloccato - ignoro password');
+      return;
+    }
     
-    // 🔴 IMPORTANTE: Ignora se già autenticato
+    // Ignora se già autenticato
     if (isAuthorized) return;
     
-    // 🔴 IMPORTANTE: Ignora se stiamo facendo logout
-    if (isLoggingOut) return;
+    // Ignora stringhe vuote
+    if (!password || password.trim() === '') return;
     
     console.log('🔍 Verificando password:', password);
     
@@ -790,78 +811,71 @@ function App() {
       console.log('✅ Password corretta, autentico...');
       handleAuthSuccess();
     }
-  }, [isAuthorized, isLoggingOut, handleAuthSuccess]);
+  }, [isAuthorized, handleAuthSuccess]);
 
-  // ✅ LOGOUT SICURO (SENZA TRIGGERARE RE-AUTH)
+  // 🔴 LOGOUT CON REDIRECT FORZATO
   const handleLogout = useCallback(() => {
-    console.log('🚪 Inizio logout sicuro...');
+    console.log('🚪 LOGOUT con redirect forzato per Vercel');
     
-    // 1. Imposta flag di logout PRIMA di tutto
-    setIsLoggingOut(true);
-    
-    // 2. Pulisci l'input password
-    if (passwordRef.current) {
-      passwordRef.current.value = '';
-      passwordRef.current.blur(); // Rimuovi focus
-    }
-    
-    // 3. Pulisci localStorage
+    // 1. Pulisci tutto
     localStorage.removeItem('restaurant_auth');
     localStorage.removeItem('auth_timestamp');
     localStorage.removeItem('ultimoAccesso');
     
-    // 4. Reset stato con delay per evitare flash
-    setTimeout(() => {
-      setIsAuthorized(false);
-      console.log('✅ Logout completato');
-    }, 200);
+    // 2. Setta stato
+    setIsAuthorized(false);
     
-    // 5. Dopo 1 secondo, resetta il flag loggingOut
+    // 3. 🔴 FORZA REDIRECT CON PARAMETRO (IMPORTANTE!)
+    // Questo previene l'autofill del browser
     setTimeout(() => {
-      setIsLoggingOut(false);
-    }, 1000);
+      window.location.href = '/?loggedout=true&t=' + Date.now();
+    }, 100);
   }, []);
 
-  // ✅ FOCUS SULL'INPUT AL CARICAMENTO
+  // 🔴 INIZIALIZZA INPUT CON ATTRIBUTI ANTI-AUTOFILL
   useEffect(() => {
-    if (!isAuthorized && passwordRef.current && !isLoggingOut) {
-      setTimeout(() => {
-        passwordRef.current?.focus();
-      }, 300);
+    if (!isAuthorized && passwordRef.current && !justLoggedOut) {
+      const timer = setTimeout(() => {
+        if (passwordRef.current) {
+          // 🔴 SETTA TUTTI GLI ATTRIBUTI ANTI-AUTOFILL
+          passwordRef.current.autocomplete = 'new-password';
+          passwordRef.current.autocapitalize = 'off';
+          passwordRef.current.autocorrect = 'off';
+          passwordRef.current.spellCheck = false;
+          
+          // 🔴 ATTRIBUTI CUSTOM
+          passwordRef.current.setAttribute('data-lpignore', 'true');
+          passwordRef.current.setAttribute('data-form-type', 'other');
+          passwordRef.current.setAttribute('data-1p-ignore', 'true');
+          passwordRef.current.setAttribute('data-bwignore', 'true');
+          
+          // Focus
+          passwordRef.current.focus();
+        }
+      }, 500); // Delay per Vercel
+      
+      return () => clearTimeout(timer);
     }
-  }, [isAuthorized, isLoggingOut]);
+  }, [isAuthorized, justLoggedOut]);
 
-  // ✅ LOADING STATES
   if (checkingAuth) {
-    return (
-      <div className="loading-container">
-        <div className="loading-content">
-          <div className="loading-spinner"></div>
-          <h2 className="loading-title">Verifica sicurezza...</h2>
-        </div>
-      </div>
-    );
+    return <div className="loading-container">Verifica sicurezza...</div>;
   }
 
-  // ✅ SE IN LOGOUT, MOSTRA LOADING
-  if (isLoggingOut) {
-    return (
-      <div className="loading-container">
-        <div className="loading-content">
-          <div className="loading-spinner"></div>
-          <h2 className="loading-title">Uscita in corso...</h2>
-        </div>
-      </div>
-    );
-  }
-
-  // ✅ SE NON AUTORIZZATO, MOSTRA SECURITY MODAL
   if (!isAuthorized) {
     return (
       <>
         <LicenseModal />
         
-        {/* ✅ MODAL DI SICUREZZA CON ACCESSO AUTOMATICO */}
+        {/* 🔴 FORM FASCIO PER INGANNARE IL BROWSER */}
+        <div style={{ position: 'absolute', left: '-9999px' }}>
+          <form>
+            <input type="text" name="username" autoComplete="username" />
+            <input type="password" name="password" autoComplete="current-password" />
+          </form>
+        </div>
+        
+        {/* 🔴 MODAL CON INPUT PROTETTO */}
         <div className="security-modal-overlay">
           <div className="security-modal">
             <div className="modal-header">
@@ -871,8 +885,6 @@ function App() {
             <div className="modal-body">
               <p className="modal-message">
                 Questo sistema è accessibile solo al personale autorizzato.
-                <br />
-                Per continuare, inserisci il codice di sicurezza:
               </p>
               
               <div className="password-form">
@@ -880,30 +892,47 @@ function App() {
                   ref={passwordRef}
                   type="password"
                   id="password-input"
+                  name="accesscode" // 🔴 NOME DIVERSO DA "password"
                   placeholder="Codice di accesso"
                   className="password-input"
-                  autoComplete="off"
-                  autoFocus
+                  autoComplete="new-password" // 🔴 IMPORTANTE
+                  // 🔴 RIMOSSO autoFocus - lo gestiamo manualmente
                   required
                   onChange={(e) => {
-                    // 🔴 Debounce per evitare troppe chiamate
+                    // 🔴 DEBOUNCE + BLOCCCO AUTOFILL
+                    if (preventAutoFillRef.current) {
+                      e.target.value = '';
+                      return;
+                    }
+                    
                     const password = e.target.value;
                     clearTimeout(window.passwordTimeout);
                     
                     window.passwordTimeout = setTimeout(() => {
                       checkPasswordRealTime(password);
-                    }, 150); // Piccolo delay
+                    }, 300); // Delay più lungo
                   }}
                   onKeyDown={(e) => {
-                    // 🔴 Se premi Invio, verifica immediatamente
                     if (e.key === 'Enter') {
                       checkPasswordRealTime(e.target.value);
                     }
                   }}
+                  // 🔴 ATTRIBUTI EXTRA ANTI-AUTOFILL
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  data-lpignore="true"
+                  data-form-type="other"
+                  data-1p-ignore="true"
                 />
                 
                 <div className="password-hint">
                   <small>Scrivi il codice - l'accesso è automatico</small>
+                  {justLoggedOut && (
+                    <div style={{ color: '#e74c3c', marginTop: '5px' }}>
+                      <small>⚠️ Attendi 3 secondi prima di inserire il codice</small>
+                    </div>
+                  )}
                 </div>
               </div>
               
@@ -911,8 +940,6 @@ function App() {
                 <p className="info-text">
                   <small>
                     L'autenticazione è valida per 24 ore.
-                    <br />
-                    Accesso vietato a personale non autorizzato.
                   </small>
                 </p>
               </div>
@@ -929,7 +956,7 @@ function App() {
     );
   }
 
-  // ✅ APP NORMALE SE AUTORIZZATO
+  // APP NORMALE SE AUTORIZZATO
   return (
     <>
       <LicenseModal />
@@ -937,41 +964,20 @@ function App() {
       {mostraNavbar && (
         <nav className="main-navbar">
           <div className="navbar-center">
-            <Link 
-              to="/" 
-              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-            >
+            <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
               Home
             </Link>
             <span className="nav-separator">|</span>
-            <Link 
-              to="/operatore" 
-              className={`nav-link ${location.pathname === '/operatore' ? 'active' : ''}`}
-            >
+            <Link to="/operatore" className={`nav-link ${location.pathname === '/operatore' ? 'active' : ''}`}>
               Area Operatore
             </Link>
             <span className="nav-separator">|</span>
-            <Link 
-              to="/gestione-menu" 
-              className={`nav-link ${location.pathname === '/gestione-menu' ? 'active' : ''}`}
-            >
+            <Link to="/gestione-menu" className={`nav-link ${location.pathname === '/gestione-menu' ? 'active' : ''}`}>
               Gestione Menu
             </Link>
-            <span className="nav-separator">|</span>
-            
-           {/* <Link 
-              to="/ordina" 
-              className={`nav-link ${location.pathname === '/ordina' ? 'active' : ''}`}
-            >
-              Pagina Ordini
-            </Link>*/}
-
           </div>
           
-          <button 
-            onClick={handleLogout}
-            className="logout-button"
-          >
+          <button onClick={handleLogout} className="logout-button">
             🚪 Logout
           </button>
         </nav>
