@@ -1703,6 +1703,20 @@ export default function OperatorePage() {
     return parseFloat(totale.toFixed(2));
   }, [ordiniPerTavolo, calcolaTotaleOrdineCompleto]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const formattaElementoOrdine = useCallback((item, index) => {
     let nomeProdotto = item.prodotto;
     let quantita = item.quantità;
@@ -1757,6 +1771,19 @@ export default function OperatorePage() {
     );
   }, []);
 
+
+
+
+
+
+
+
+
+
+
+
+
+  
   const getStatoColore = useCallback((stato) => {
     switch(stato) {
       case 'in_attesa': return '#3498db';
