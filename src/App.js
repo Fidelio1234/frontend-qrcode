@@ -840,7 +840,7 @@ function App() {
   className="password-input"
   autoFocus={false} // <-- DISABILITA AUTOFOCUS
   required
-  onChange={(e) => checkPasswordRealTime(e.target.value)}
+  //onChange={(e) => checkPasswordRealTime(e.target.value)}
   onKeyDown={(e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
