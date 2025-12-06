@@ -720,10 +720,7 @@ export default AppWrapper;
 
 
 
-
-
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -737,12 +734,13 @@ function App() {
   const mostraNavbar = !location.pathname.startsWith('/ordina');
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const passwordRef = useRef(null);
   
-  // ✅ PASSWORD - CAMBIA QUESTA!
-  const SITE_PASSWORD = 'service'; // ← MODIFICA QUESTA PASSWORD
+  // ✅ PASSWORD
+  const SITE_PASSWORD = 'service';
 
-  // ✅ VERIFICA AUTENTICAZIONE SOLO UNA VOLTA
+  // ✅ VERIFICA AUTENTICAZIONE
   useEffect(() => {
     console.log('🔐 Controllo autenticazione...');
     
@@ -768,37 +766,72 @@ function App() {
   }, []);
 
   // ✅ SUCCESSO AUTENTICAZIONE
-  const handleAuthSuccess = () => {
+  const handleAuthSuccess = useCallback(() => {
     console.log('🎉 Autenticazione riuscita!');
     setIsAuthorized(true);
     localStorage.setItem('restaurant_auth', 'true');
     localStorage.setItem('auth_timestamp', new Date().toISOString());
-  };
+  }, []);
 
-  // ✅ VERIFICA PASSWORD IN TEMPO REALE
-  const checkPasswordRealTime = (password) => {
+  // ✅ VERIFICA PASSWORD IN TEMPO REALE (SENZA LOOP)
+  const checkPasswordRealTime = useCallback((password) => {
+    // 🔴 IMPORTANTE: Ignora se stringa vuota o troppo corta
+    if (!password || password.trim() === '') return;
+    
+    // 🔴 IMPORTANTE: Ignora se già autenticato
+    if (isAuthorized) return;
+    
+    // 🔴 IMPORTANTE: Ignora se stiamo facendo logout
+    if (isLoggingOut) return;
+    
+    console.log('🔍 Verificando password:', password);
+    
     if (password === SITE_PASSWORD) {
+      console.log('✅ Password corretta, autentico...');
       handleAuthSuccess();
     }
-  };
+  }, [isAuthorized, isLoggingOut, handleAuthSuccess]);
 
-  // ✅ LOGOUT
-  const handleLogout = () => {
-    console.log('🚪 Logout');
+  // ✅ LOGOUT SICURO (SENZA TRIGGERARE RE-AUTH)
+  const handleLogout = useCallback(() => {
+    console.log('🚪 Inizio logout sicuro...');
+    
+    // 1. Imposta flag di logout PRIMA di tutto
+    setIsLoggingOut(true);
+    
+    // 2. Pulisci l'input password
+    if (passwordRef.current) {
+      passwordRef.current.value = '';
+      passwordRef.current.blur(); // Rimuovi focus
+    }
+    
+    // 3. Pulisci localStorage
     localStorage.removeItem('restaurant_auth');
     localStorage.removeItem('auth_timestamp');
     localStorage.removeItem('ultimoAccesso');
-    setIsAuthorized(false);
-  };
+    
+    // 4. Reset stato con delay per evitare flash
+    setTimeout(() => {
+      setIsAuthorized(false);
+      console.log('✅ Logout completato');
+    }, 200);
+    
+    // 5. Dopo 1 secondo, resetta il flag loggingOut
+    setTimeout(() => {
+      setIsLoggingOut(false);
+    }, 1000);
+  }, []);
 
   // ✅ FOCUS SULL'INPUT AL CARICAMENTO
   useEffect(() => {
-    if (!isAuthorized && passwordRef.current) {
-      passwordRef.current.focus();
+    if (!isAuthorized && passwordRef.current && !isLoggingOut) {
+      setTimeout(() => {
+        passwordRef.current?.focus();
+      }, 300);
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, isLoggingOut]);
 
-  // ✅ SE STIAMO CONTROLLANDO L'AUTENTICAZIONE, MOSTRA LOADING
+  // ✅ LOADING STATES
   if (checkingAuth) {
     return (
       <div className="loading-container">
@@ -810,18 +843,29 @@ function App() {
     );
   }
 
-  // ✅ SE NON AUTORIZZATO, MOSTRA SOLO IL SECURITY MODAL
+  // ✅ SE IN LOGOUT, MOSTRA LOADING
+  if (isLoggingOut) {
+    return (
+      <div className="loading-container">
+        <div className="loading-content">
+          <div className="loading-spinner"></div>
+          <h2 className="loading-title">Uscita in corso...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ SE NON AUTORIZZATO, MOSTRA SECURITY MODAL
   if (!isAuthorized) {
     return (
       <>
         <LicenseModal />
         
-        {/* ✅ MODAL DI SICUREZZA */}
+        {/* ✅ MODAL DI SICUREZZA CON ACCESSO AUTOMATICO */}
         <div className="security-modal-overlay">
           <div className="security-modal">
             <div className="modal-header">
               <h2 className="modal-title">🔐 Accesso Riservato</h2>
-             
             </div>
             
             <div className="modal-body">
@@ -833,24 +877,33 @@ function App() {
               
               <div className="password-form">
                 <input
-  ref={passwordRef}
-  type="password"
-  id="password-input"
-  placeholder="Codice di accesso"
-  className="password-input"
-  autoFocus={false} // <-- DISABILITA AUTOFOCUS
-  required
-  //onChange={(e) => checkPasswordRealTime(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      checkPasswordRealTime(e.target.value);
-    }
-  }}
-/>
+                  ref={passwordRef}
+                  type="password"
+                  id="password-input"
+                  placeholder="Codice di accesso"
+                  className="password-input"
+                  autoComplete="off"
+                  autoFocus
+                  required
+                  onChange={(e) => {
+                    // 🔴 Debounce per evitare troppe chiamate
+                    const password = e.target.value;
+                    clearTimeout(window.passwordTimeout);
+                    
+                    window.passwordTimeout = setTimeout(() => {
+                      checkPasswordRealTime(password);
+                    }, 150); // Piccolo delay
+                  }}
+                  onKeyDown={(e) => {
+                    // 🔴 Se premi Invio, verifica immediatamente
+                    if (e.key === 'Enter') {
+                      checkPasswordRealTime(e.target.value);
+                    }
+                  }}
+                />
                 
                 <div className="password-hint">
-                  <small>Inserisci il codice - l'accesso è automatico</small>
+                  <small>Scrivi il codice - l'accesso è automatico</small>
                 </div>
               </div>
               
