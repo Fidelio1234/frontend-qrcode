@@ -717,8 +717,6 @@ export default AppWrapper;
 
 
 
-
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
@@ -732,37 +730,28 @@ function App() {
   const location = useLocation();
   const mostraNavbar = !location.pathname.startsWith('/ordina');
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [checkingAuth, setCheckingAuth] = useState(true);
-  const [justLoggedOut, setJustLoggedOut] = useState(false); // 🔴 NUOVO STATO
   const passwordRef = useRef(null);
-  const preventAutoFillRef = useRef(false); // 🔴 REF PER BLOCCARE AUTOFILL
+  const justLoggedOutRef = useRef(false);
   
   const SITE_PASSWORD = 'service';
 
   useEffect(() => {
     console.log('🔐 Controllo autenticazione...');
     
-    // 🔴 CONTROLLA SE APPENA LOGGATO OUT
+    // Controlla se appena logged out
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('loggedout') === 'true') {
       console.log('🔄 Pagina caricata dopo logout');
-      setJustLoggedOut(true);
-      
-      // Rimuovi parametro URL
+      justLoggedOutRef.current = true;
       window.history.replaceState({}, '', '/');
       
-      // Pulisci storage
-      localStorage.removeItem('restaurant_auth');
-      localStorage.removeItem('auth_timestamp');
-      
-      // 🔴 BLOCCA AUTOFILL PER 3 SECONDI
-      preventAutoFillRef.current = true;
+      // Blocca autofill per 2 secondi
       setTimeout(() => {
-        preventAutoFillRef.current = false;
-        setJustLoggedOut(false);
-      }, 3000);
+        justLoggedOutRef.current = false;
+      }, 2000);
     }
     
+    // Verifica autenticazione esistente
     const authData = localStorage.getItem('restaurant_auth');
     const authTimestamp = localStorage.getItem('auth_timestamp');
     
@@ -780,8 +769,6 @@ function App() {
         localStorage.removeItem('auth_timestamp');
       }
     }
-    
-    setCheckingAuth(false);
   }, []);
 
   const handleAuthSuccess = useCallback(() => {
@@ -791,100 +778,79 @@ function App() {
     localStorage.setItem('auth_timestamp', new Date().toISOString());
   }, []);
 
-  // 🔴 VERIFICA PASSWORD CON BLOCCCO AUTOFILL
   const checkPasswordRealTime = useCallback((password) => {
-    // 🔴 BLOCCA SE APPENA LOGGATO OUT O AUTOFILL BLOCCATO
-    if (preventAutoFillRef.current) {
-      console.log('🚫 Autofill bloccato - ignoro password');
+    // Blocca se appena fatto logout
+    if (justLoggedOutRef.current) {
+      console.log('🚫 Bloccato - logout recente');
       return;
     }
     
-    // Ignora se già autenticato
+    // Blocca se già autenticato
     if (isAuthorized) return;
     
-    // Ignora stringhe vuote
+    // Ignora vuoti
     if (!password || password.trim() === '') return;
     
-    console.log('🔍 Verificando password:', password);
+    console.log('🔍 Verificando:', password);
     
     if (password === SITE_PASSWORD) {
-      console.log('✅ Password corretta, autentico...');
+      console.log('✅ Accesso garantito');
       handleAuthSuccess();
     }
   }, [isAuthorized, handleAuthSuccess]);
 
-  // 🔴 LOGOUT CON REDIRECT FORZATO
   const handleLogout = useCallback(() => {
-    console.log('🚪 LOGOUT con redirect forzato per Vercel');
+    console.log('🚪 Logout');
     
-    // 1. Pulisci tutto
+    // Pulisci tutto
     localStorage.removeItem('restaurant_auth');
     localStorage.removeItem('auth_timestamp');
-    localStorage.removeItem('ultimoAccesso');
     
-    // 2. Setta stato
-    setIsAuthorized(false);
+    // Imposta flag logout
+    justLoggedOutRef.current = true;
     
-    // 3. 🔴 FORZA REDIRECT CON PARAMETRO (IMPORTANTE!)
-    // Questo previene l'autofill del browser
+    // Redirect pulito
     setTimeout(() => {
-      window.location.href = '/?loggedout=true&t=' + Date.now();
+      window.location.href = '/?loggedout=true';
     }, 100);
   }, []);
 
-  // 🔴 INIZIALIZZA INPUT CON ATTRIBUTI ANTI-AUTOFILL
+  // 🔴 FOCUS AUTOMATICO SULL'INPUT (semplice)
   useEffect(() => {
-    if (!isAuthorized && passwordRef.current && !justLoggedOut) {
+    if (!isAuthorized && passwordRef.current) {
+      console.log('🎯 Imposto focus su input password');
+      
+      // Piccolo delay per stabilizzare
       const timer = setTimeout(() => {
         if (passwordRef.current) {
-          // 🔴 SETTA TUTTI GLI ATTRIBUTI ANTI-AUTOFILL
-          passwordRef.current.autocomplete = 'new-password';
-          passwordRef.current.autocapitalize = 'off';
-          passwordRef.current.autocorrect = 'off';
-          passwordRef.current.spellCheck = false;
-          
-          // 🔴 ATTRIBUTI CUSTOM
-          passwordRef.current.setAttribute('data-lpignore', 'true');
-          passwordRef.current.setAttribute('data-form-type', 'other');
-          passwordRef.current.setAttribute('data-1p-ignore', 'true');
-          passwordRef.current.setAttribute('data-bwignore', 'true');
-          
-          // Focus
           passwordRef.current.focus();
         }
-      }, 500); // Delay per Vercel
+      }, 300);
       
       return () => clearTimeout(timer);
     }
-  }, [isAuthorized, justLoggedOut]);
+  }, [isAuthorized]);
 
-  if (checkingAuth) {
-    return <div className="loading-container">Verifica sicurezza...</div>;
-  }
-
+  // 🔴 SE NON AUTORIZZATO: MOSTRA SOLO IL SECURITY MODAL
   if (!isAuthorized) {
     return (
       <>
-        <LicenseModal />
-        
-        {/* 🔴 FORM FASCIO PER INGANNARE IL BROWSER */}
-        <div style={{ position: 'absolute', left: '-9999px' }}>
-          <form>
-            <input type="text" name="username" autoComplete="username" />
-            <input type="password" name="password" autoComplete="current-password" />
-          </form>
+        {/* Form falso per bloccare autofill browser */}
+        <div style={{ display: 'none' }}>
+          <input type="text" name="username" autoComplete="username" />
+          <input type="password" name="password" autoComplete="current-password" />
         </div>
         
-        {/* 🔴 MODAL CON INPUT PROTETTO */}
+        {/* Modal di sicurezza */}
         <div className="security-modal-overlay">
           <div className="security-modal">
             <div className="modal-header">
-              <h2 className="modal-title">🔐 Accesso Riservato</h2>
+              <h2 className="modal-title">🔐 Accesso Sistema</h2>
             </div>
             
             <div className="modal-body">
               <p className="modal-message">
-                Questo sistema è accessibile solo al personale autorizzato.
+                Inserisci il codice di sicurezza:
               </p>
               
               <div className="password-form">
@@ -892,63 +858,35 @@ function App() {
                   ref={passwordRef}
                   type="password"
                   id="password-input"
-                  name="accesscode" // 🔴 NOME DIVERSO DA "password"
-                  placeholder="Codice di accesso"
+                  placeholder="Digita qui il codice..."
                   className="password-input"
-                  autoComplete="new-password" // 🔴 IMPORTANTE
-                  // 🔴 RIMOSSO autoFocus - lo gestiamo manualmente
-                  required
+                  autoComplete="new-password"
+                  autoFocus
                   onChange={(e) => {
-                    // 🔴 DEBOUNCE + BLOCCCO AUTOFILL
-                    if (preventAutoFillRef.current) {
-                      e.target.value = '';
-                      return;
-                    }
-                    
                     const password = e.target.value;
-                    clearTimeout(window.passwordTimeout);
                     
+                    // Debounce semplice
+                    clearTimeout(window.passwordTimeout);
                     window.passwordTimeout = setTimeout(() => {
                       checkPasswordRealTime(password);
-                    }, 300); // Delay più lungo
+                    }, 200);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       checkPasswordRealTime(e.target.value);
                     }
                   }}
-                  // 🔴 ATTRIBUTI EXTRA ANTI-AUTOFILL
+                  // Attributi anti-autofill
                   autoCapitalize="off"
                   autoCorrect="off"
                   spellCheck="false"
                   data-lpignore="true"
-                  data-form-type="other"
-                  data-1p-ignore="true"
                 />
-                
-                <div className="password-hint">
-                  <small>Scrivi il codice - l'accesso è automatico</small>
-                  {justLoggedOut && (
-                    <div style={{ color: '#e74c3c', marginTop: '5px' }}>
-                      <small>⚠️ Attendi 3 secondi prima di inserire il codice</small>
-                    </div>
-                  )}
-                </div>
               </div>
               
-              <div className="modal-info">
-                <p className="info-text">
-                  <small>
-                    L'autenticazione è valida per 24 ore.
-                  </small>
-                </p>
+              <div className="modal-hint">
+                <small>L'accesso è automatico quando il codice è corretto</small>
               </div>
-            </div>
-            
-            <div className="modal-footer">
-              <p className="footer-text">
-                Sistema protetto - v1.0
-              </p>
             </div>
           </div>
         </div>
@@ -956,7 +894,7 @@ function App() {
     );
   }
 
-  // APP NORMALE SE AUTORIZZATO
+  // 🔴 SE AUTORIZZATO: APP NORMALE
   return (
     <>
       <LicenseModal />
@@ -969,16 +907,16 @@ function App() {
             </Link>
             <span className="nav-separator">|</span>
             <Link to="/operatore" className={`nav-link ${location.pathname === '/operatore' ? 'active' : ''}`}>
-              Area Operatore
+              Operatore
             </Link>
             <span className="nav-separator">|</span>
             <Link to="/gestione-menu" className={`nav-link ${location.pathname === '/gestione-menu' ? 'active' : ''}`}>
-              Gestione Menu
+              Menu
             </Link>
           </div>
           
           <button onClick={handleLogout} className="logout-button">
-            🚪 Logout
+            Logout
           </button>
         </nav>
       )}
