@@ -833,15 +833,21 @@ function App() {
               
               <div className="password-form">
                 <input
-                  ref={passwordRef}
-                  type="password"
-                  id="password-input"
-                  placeholder="Codice di accesso"
-                  className="password-input"
-                  autoFocus
-                  required
-                  onChange={(e) => checkPasswordRealTime(e.target.value)}
-                />
+  ref={passwordRef}
+  type="password"
+  id="password-input"
+  placeholder="Codice di accesso"
+  className="password-input"
+  autoFocus={false} // <-- DISABILITA AUTOFOCUS
+  required
+  onChange={(e) => checkPasswordRealTime(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      checkPasswordRealTime(e.target.value);
+    }
+  }}
+/>
                 
                 <div className="password-hint">
                   <small>Inserisci il codice - l'accesso è automatico</small>
