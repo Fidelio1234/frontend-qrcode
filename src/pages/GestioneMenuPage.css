@@ -9,7 +9,6 @@
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.1),
     0 2px 10px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
 }
 
 .gestione-container h2 {
@@ -313,151 +312,7 @@
   box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
-/* 🔹 MODAL MODERNO */
-/* 🔹 SOLUZIONE SEMPLICE - MODAL SEMPRE IN VIEWPORT */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  backdrop-filter: blur(8px);
-  overflow: auto;
-}
-
-.modal-modifica {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  width: 90%;
-  max-width: 450px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  position: relative;
-  margin: 20px auto; /* Centra e aggiunge margine */
-}
-.modal-coperto {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes modalAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.modal-buttons .ok {
-  background: linear-gradient(135deg, #27ae60, #229954);
-  color: white;
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-}
-
-.modal-buttons .ok:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(39, 174, 96, 0.4);
-}
-
-.modal-buttons .annulla {
-  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-  color: white;
-  box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
-}
-
-/* 🔹 MESSAGGI */
-.msg {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
-  color: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
-  z-index: 3000;
-  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* 🔹 RESPONSIVE */
-@media (max-width: 768px) {
-  .gestione-container {
-    margin: 10px;
-    padding: 20px;
-  }
-  
-  .aggiungi-form {
-    grid-template-columns: 1fr;
-  }
-  
-  .categoria-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  
-  .categoria-blocco ul li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .prod-actions {
-    align-self: flex-end;
-  }
-}
-
-
-
-
-
-
-/* GestioneMenuPage.css - AGGIUNGI QUESTI STILI */
-
-/* Box varianti globali */
+/* 🔹 BOX VARIANTI GLOBALI */
 .varianti-globali-box {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
@@ -482,17 +337,20 @@
   background: #ffc107;
   color: #333;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 .btn-varianti:hover {
   background: #e0a800;
+  transform: translateY(-2px);
 }
 
-/* Lista varianti globali */
+/* 🔹 LISTA VARIANTI GLOBALI */
 .varianti-lista {
   margin: 15px 0;
 }
@@ -550,10 +408,12 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9em;
+  transition: all 0.3s ease;
 }
 
 .btn-modifica:hover {
   background: #138496;
+  transform: translateY(-2px);
 }
 
 .btn-elimina {
@@ -564,10 +424,12 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9em;
+  transition: all 0.3s ease;
 }
 
 .btn-elimina:hover {
   background: #c82333;
+  transform: translateY(-2px);
 }
 
 .nessuna-variante {
@@ -584,108 +446,185 @@
   font-style: italic;
 }
 
-/* Modal varianti globali */
-.modal-varianti-globali {
-  background: white;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+/* 🔹 MODAL BACKDROP FIXED - CORRETTO */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
 }
 
+/* 🔹 MODAL COPERTTO */
+.modal-coperto {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: modalAppear 0.3s ease;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 🔹 MODAL VARIANTI GLOBALI */
+.modal-varianti-globali {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalAppear 0.3s ease;
+}
+
+.modal-conferma {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalAppear 0.3s ease;
+}
+
+/* 🔹 MODAL HEADER */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 25px;
   background: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
+  border-radius: 12px 12px 0 0;
 }
 
 .modal-header h3 {
   margin: 0;
   color: #333;
+  font-size: 1.4rem;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
   color: #6c757d;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
 .close-btn:hover {
   background: #e9ecef;
   color: #333;
+  transform: rotate(90deg);
 }
 
+/* 🔹 MODAL CONTENT */
 .modal-content {
-  padding: 20px;
+  padding: 25px;
+}
+
+/* 🔹 FORM VARIANTI */
+.form-variante {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
+  font-weight: 600;
   color: #333;
+  font-size: 0.95rem;
 }
 
-.input-variante {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
+.input-variante,
 .select-tipo {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 12px 15px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
   font-size: 14px;
+  transition: all 0.3s ease;
   background: white;
 }
 
+.input-variante:focus,
+.select-tipo:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.select-tipo {
+  cursor: pointer;
+}
+
+/* 🔹 COSTO INPUT */
 .costo-input-container {
   display: flex;
   align-items: center;
 }
 
 .costo-prefix {
-  padding: 10px;
-  background: #e9ecef;
-  border: 1px solid #ced4da;
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border: 2px solid #e1e8ed;
   border-right: none;
-  border-radius: 4px 0 0 4px;
+  border-radius: 8px 0 0 8px;
   color: #495057;
+  font-weight: 500;
+  min-width: 60px;
 }
 
 .input-costo {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 0 4px 4px 0;
+  padding: 12px 15px;
+  border: 2px solid #e1e8ed;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
   font-size: 14px;
+  background: white;
 }
 
 .input-costo:disabled {
-  background: #e9ecef;
+  background: #f8f9fa;
   color: #6c757d;
+  cursor: not-allowed;
 }
 
 .info-rimozione {
@@ -699,47 +638,237 @@
   color: #6c757d;
   font-size: 0.9em;
   margin: 0;
-  padding: 10px;
+  padding: 12px;
   background: #f8f9fa;
-  border-radius: 4px;
-  border-left: 3px solid #17a2b8;
+  border-radius: 8px;
+  border-left: 4px solid #17a2b8;
+  line-height: 1.5;
 }
 
-/* Bottoni modal */
+/* 🔹 MODAL CONFERMA ELIMINA */
+.conferma-messaggio {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.conferma-messaggio p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.variante-da-eliminare {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
+}
+
+.variante-da-eliminare strong {
+  font-size: 1.2rem;
+  color: #dc3545;
+}
+
+.variante-tipo.aggiunta {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.variante-tipo.rimozione {
+  color: #6c757d;
+  font-weight: 600;
+}
+
+/* 🔹 AVVERTENZE ELIMINAZIONE CATEGORIA */
+.avvertenza {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.avvertenza p {
+  color: #856404;
+  margin-bottom: 10px;
+}
+
+.avvertenza ul {
+  margin: 10px 0 0 20px;
+  color: #856404;
+}
+
+.avvertenza li {
+  margin-bottom: 5px;
+}
+
+.avviso {
+  color: #dc3545;
+  font-weight: 600;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+/* 🔹 BOTTONI MODAL */
 .modal-buttons {
   display: flex;
-  gap: 10px;
-  padding: 20px;
+  gap: 15px;
+  padding: 20px 25px;
   background: #f8f9fa;
   border-top: 1px solid #dee2e6;
+  border-radius: 0 0 12px 12px;
 }
 
-.btn-salva {
+.btn-salva,
+.btn-conferma-elimina,
+.btn-annulla,
+.ok,
+.annulla {
   flex: 1;
-  background: #28a745;
-  color: white;
+  padding: 14px 20px;
   border: none;
-  padding: 12px;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
-.btn-salva:hover {
-  background: #218838;
-}
-
-.btn-annulla {
-  flex: 1;
-  background: #6c757d;
+.btn-salva,
+.ok {
+  background: linear-gradient(135deg, #28a745, #218838);
   color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-.btn-annulla:hover {
-  background: #5a6268;
+.btn-salva:hover,
+.ok:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(40, 167, 69, 0.4);
+}
+
+.btn-conferma-elimina {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-conferma-elimina:hover {
+  background: linear-gradient(135deg, #c82333, #bd2130);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(220, 53, 69, 0.4);
+}
+
+.btn-annulla,
+.annulla {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.btn-annulla:hover,
+.annulla:hover {
+  background: linear-gradient(135deg, #5a6268, #545b62);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(108, 117, 125, 0.4);
+}
+
+/* 🔹 MESSAGGI */
+.msg {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+  z-index: 10000;
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 🔹 CATEGORIA VUOTA */
+.categoria-vuota {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* 🔹 RESPONSIVE */
+@media (max-width: 768px) {
+  .gestione-container {
+    margin: 10px;
+    padding: 20px;
+  }
+  
+  .aggiungi-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .categoria-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .categoria-blocco ul li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .prod-actions {
+    align-self: flex-end;
+  }
+  
+  .modal-varianti-globali,
+  .modal-coperto,
+  .modal-conferma {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-salva,
+  .btn-annulla,
+  .btn-conferma-elimina,
+  .ok,
+  .annulla {
+    width: 100%;
+  }
+  
+  .variante-globale-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .variante-actions {
+    align-self: flex-end;
+  }
 }
