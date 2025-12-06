@@ -379,6 +379,12 @@
   }
 }
 
+
+
+
+
+
+
 /* 🔹 FILTRI STATO ORDINI */
 .filtri-stato {
   display: flex;
@@ -408,6 +414,14 @@
   background: #3498db;
   color: white;
 }
+
+
+
+
+
+
+
+
 
 /* 🔹 INFO ORDINE MIGLIORATA */
 .ordine-info {
@@ -640,4 +654,97 @@
 .ordine-riga:has(.prodotto:contains('Coperto')) .prodotto {
   font-weight: bold;
   color: #28a745;
+}
+
+
+
+
+/* Aggiungi queste regole al tuo OperatorePage.css */
+
+/* STILE PER VARIANTI NELLA PAGINA OPERATORE */
+.varianti-container {
+  margin-left: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  border-left: 2px solid #e0e0e0;
+}
+
+.variante-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  margin: 3px 0;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #f8f9fa;
+}
+
+.variante-item.aggiunta {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.variante-item.rimozione {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.variante-icon {
+  font-size: 12px;
+}
+
+.variante-nome {
+  flex: 1;
+}
+
+.variante-costo {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.prodotto-principale {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.ordine-riga {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ordine-riga:last-child {
+  border-bottom: none;
+}
+
+.ordine-totale-riga {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 2px solid #eee;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Migliora la visualizzazione dei dettagli ordine */
+.ordine-dettagli {
+  margin: 10px 0;
+  padding-left: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .varianti-container {
+    margin-left: 15px;
+  }
+  
+  .variante-item {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
 }
