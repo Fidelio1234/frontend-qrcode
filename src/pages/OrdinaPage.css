@@ -7,7 +7,7 @@
 /* 🔹 Wrapper generale MOBILE FIRST */
 .ordina-wrap {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
- background: linear-gradient(135deg, #e4e4ea 0%, #040404 100%);
+  background: linear-gradient(135deg, #e4e4ea 0%, #040404 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -157,7 +157,6 @@
   font-weight: bold;
   font-size: 1rem;
 }
-
 
 .card.selected {
   background: linear-gradient(135deg, #4caf50, #45a049);
@@ -336,19 +335,6 @@
 }
 
 /* 🔹 Modal coperto MOBILE */
-/* 🔹 Modal coperto MOBILE */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 20px;
-  backdrop-filter: blur(8px);
-}
-
 .modal-coperto {
   background: white;
   padding: 30px 24px;
@@ -426,6 +412,7 @@
   transform: scale(0.95);
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
 }
+
 /* 🔹 Blocco prodotti quando carrello aperto */
 .card.disabled {
   opacity: 0.5;
@@ -493,8 +480,6 @@
   position: relative; /* Importante per posizionare il badge */
 }
 
-
-
 /* ✅ ANIMAZIONE PER QUANDO AGGIUNGI UN PRODOTTO */
 @keyframes pop {
   0% { transform: scale(0.5); }
@@ -520,8 +505,6 @@
   box-shadow: 0 2px 8px rgba(255, 107, 107, 0.5);
   border: 2px solid white;
 }
-
-
 
 /* Indicatore stampante */
 .stampante-indicator {
@@ -561,10 +544,6 @@
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
-
-
-
-/* Aggiungi queste regole al tuo OrdinaPage.css */
 
 /* VARIANTI NEL CARRELLO */
 .varianti-list {
@@ -614,10 +593,6 @@
 
 /* MODAL VARIANTI */
 .modal-varianti {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -656,6 +631,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-varianti .close:hover {
+  background: #d32f2f;
 }
 
 .modal-varianti .modal-body {
@@ -736,6 +716,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s;
 }
 
 .btn-aggiungi {
@@ -743,9 +724,17 @@
   color: white;
 }
 
+.btn-aggiungi:hover {
+  background: #388e3c;
+}
+
 .btn-rimuovi {
   background: #f44336;
   color: white;
+}
+
+.btn-rimuovi:hover {
+  background: #d32f2f;
 }
 
 .varianti-selezionate {
@@ -774,6 +763,7 @@
   border-left: 4px solid;
   border-radius: 4px;
   font-size: 14px;
+  list-style-type: none;
 }
 
 .variante-selezionata.aggiunta {
@@ -788,39 +778,53 @@
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  margin-top: 20px;
 }
 
 .btn-conferma {
-  padding: 10px 20px;
+  padding: 13px 20px;
   background: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+  transition: background 0.2s;
 }
 
-.btn-annulla {
-  padding: 10px 20px;
-  background: #f44336;
+.btn-conferma:hover {
+  background: #388e3c;
+}
+
+.btn-annulla1 {
+  padding: 13px 50px;
+  background: #c63d3d;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+   font-weight: bold;
+  transition: background 0.2s;
 }
 
-/* MODAL BACKDROP */
+.btn-annulla:hover {
+  background: #a50d0d;
+}
+
+/* 🔥 MODAL BACKDROP - UNA SOLA DEFINIZIONE! */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  backdrop-filter: blur(8px);
 }
 
 /* INDICATORE STAMPANTE */

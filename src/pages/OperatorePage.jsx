@@ -1641,20 +1641,20 @@ export default function OperatorePage() {
 
   
   // ✅ FUNZIONE PER CALCOLARE IL TOTALE DI UN SINGOLO ORDINE CON VARIANTI
- const calcolaTotaleOrdineCompleto = useCallback((ordinazione) => {
+const calcolaTotaleOrdineCompleto = useCallback((ordinazione) => {
   return ordinazione.reduce((totale, item) => {
-    let prezzoProdotto = item.prezzo || 0;
-    const quantita = item.quantità || 1;
+    let prezzoUnitario = item.prezzo || 0;
+    let quantita = item.quantità || 1;
     
-    // ✅ PER IL COPERTTO - VERSIONE CORRETTA
+    // ✅ GESTIONE COPERTTO
     if (item.prodotto && item.prodotto.toLowerCase().includes('coperto')) {
       const match = item.prodotto.match(/x\s*(\d+)/i);
       if (match) {
         const numeroPersone = parseInt(match[1]);
-        // Moltiplica il prezzo base per il numero di persone
-        return totale + (prezzoProdotto * numeroPersone);
+        // Per il coperto, moltiplichiamo il prezzo unitario per il numero di persone
+        return totale + (prezzoUnitario * numeroPersone);
       }
-      return totale + prezzoProdotto;
+      return totale + prezzoUnitario;
     }
     
     // ✅ AGGIUNGI VARIANTI SE PRESENTI
@@ -1665,14 +1665,12 @@ export default function OperatorePage() {
         }
         return sum;
       }, 0);
-      prezzoProdotto += costoVarianti;
+      prezzoUnitario += costoVarianti;
     }
     
-    return totale + (prezzoProdotto * quantita);
+    return totale + (prezzoUnitario * quantita);
   }, 0);
 }, []);
-
-
 
 
 
@@ -1714,76 +1712,102 @@ export default function OperatorePage() {
 
 
 
-
-
-
-  const formattaElementoOrdine = useCallback((item, index) => {
-    let nomeProdotto = item.prodotto;
-    let quantita = item.quantità;
-    let prezzoUnitario = item.prezzo || 0;
-    
-    // ✅ GESTIONE SPECIALE PER COPERTTO
-    if (item.prodotto && item.prodotto.toLowerCase().includes('coperto')) {
-      const match = item.prodotto.match(/x\s*(\d+)/i);
-      if (match) {
-        quantita = parseInt(match[1]);
-        nomeProdotto = 'Coperto';
-        prezzoUnitario = prezzoUnitario * quantita;
-      } else {
-        nomeProdotto = 'Coperto';
-      }
-    } else {
-      // Prodotti normali - pulisci il nome
-      nomeProdotto = item.prodotto.replace(/\s*x\s*\d+\s*$/i, '');
-    }
-    
-    // ✅ VARIANTI ASSOCIATE AL PRODOTTO
-    const varianti = item.varianti || [];
-    
-    return (
-      <li key={index} className="ordine-riga">
-        <div className="prodotto-principale">
-          <span className="quantita">{quantita} x</span>
-          <span className="prodotto">{nomeProdotto}</span>
-          <span className="prezzo">€ {prezzoUnitario.toFixed(2)}</span>
-        </div>
-        
-        {/* ✅ VISUALIZZA VARIANTI */}
-        {varianti.length > 0 && (
-          <div className="varianti-container">
-            {varianti.map(variante => (
-              <div 
-                key={`${index}-${variante.id || variante.nome}`} 
-                className={`variante-item ${variante.tipo}`}
-              >
-                <span className="variante-icon">
-                  {variante.tipo === 'aggiunta' ? '➕' : '➖'}
-                </span>
-                <span className="variante-nome">{variante.nome}</span>
-                {variante.tipo === 'aggiunta' && variante.costo > 0 && (
-                  <span className="variante-costo">+€{variante.costo.toFixed(2)}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </li>
-    );
-  }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
+const formattaElementoOrdine = useCallback((item, index) => {
+  let nomeProdotto = item.prodotto;
+  let quantita = item.quantità || 1;
+  let prezzoUnitario = item.prezzo || 0;
   
+  // ✅ GESTIONE SPECIALE PER COPERTTO - CORRETTA
+  if (item.prodotto && item.prodotto.toLowerCase().includes('coperto')) {
+    // Estrai il numero dal nome (es: "Coperto x 4" -> 4)
+    const match = item.prodotto.match(/x\s*(\d+)/i);
+    if (match) {
+      const numeroPersone = parseInt(match[1]);
+      // Il prezzo unitario è per persona, ma nel carrello abbiamo un solo item
+      // Quindi il prezzo totale è: prezzoUnitario * numeroPersone
+      const prezzoTotaleCoperto = prezzoUnitario * numeroPersone;
+      
+      return (
+        <li key={index} className="ordine-riga">
+          <div className="prodotto-principale">
+            <span className="quantita">{numeroPersone} x</span>
+            <span className="prodotto">Coperto</span>
+            <span className="prezzo">€ {prezzoTotaleCoperto.toFixed(2)}</span>
+          </div>
+          <div className="info-coperto">
+            <small>(€ {prezzoUnitario.toFixed(2)} per persona)</small>
+          </div>
+        </li>
+      );
+    } else {
+      // Se non trova il numero, mostra normalmente
+      nomeProdotto = 'Coperto';
+      quantita = 1;
+    }
+  } else {
+    // Prodotti normali - pulisci il nome
+    nomeProdotto = item.prodotto.replace(/\s*x\s*\d+\s*$/i, '');
+  }
+  
+  // ✅ AGGIUNGI COSTO VARIANTI al prezzo unitario
+  const varianti = item.varianti || [];
+  let prezzoConVarianti = prezzoUnitario;
+  
+  if (varianti.length > 0) {
+    const costoVarianti = varianti.reduce((somma, variante) => {
+      if (variante.tipo === 'aggiunta' && variante.costo > 0) {
+        return somma + (variante.costo || 0);
+      }
+      return somma;
+    }, 0);
+    prezzoConVarianti += costoVarianti;
+  }
+  
+  // ✅ CALCOLA IL PREZZO TOTALE PER LA QUANTITÀ
+  const prezzoTotale = prezzoConVarianti * quantita;
+  
+  return (
+    <li key={index} className="ordine-riga">
+      <div className="prodotto-principale">
+        <span className="quantita">{quantita} x</span>
+        <span className="prodotto">{nomeProdotto}</span>
+        <span className="prezzo">€ {prezzoTotale.toFixed(2)}</span>
+      </div>
+      
+      {/* ✅ VISUALIZZA VARIANTI */}
+      {varianti.length > 0 && (
+        <div className="varianti-container">
+          {varianti.map((variante, idx) => (
+            <div 
+              key={`${index}-${variante.id || variante.nome || idx}`} 
+              className={`variante-item ${variante.tipo}`}
+            >
+              <span className="variante-icon">
+                {variante.tipo === 'aggiunta' ? '➕' : '➖'}
+              </span>
+              <span className="variante-nome">{variante.nome}</span>
+              {variante.tipo === 'aggiunta' && variante.costo > 0 && (
+                <span className="variante-costo">+€{variante.costo.toFixed(2)}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </li>
+  );
+}, []);
+
+
+
+
+
+
+
+
+
+
+
+
   const getStatoColore = useCallback((stato) => {
     switch(stato) {
       case 'in_attesa': return '#3498db';
@@ -1891,8 +1915,9 @@ export default function OperatorePage() {
                           <span className="ordine-stato" style={{ color: getStatoColore(o.stato) }}>
                             {getStatoTesto(o.stato)}
                           </span>
-                          {o.dataOra && <span className="ordine-data">• Aperto {o.dataOra}</span>}
-                          {o.chiusoIl && <span className="ordine-data">• Chiuso: {o.chiusoIl}</span>}
+                           {/*o.chiusoIl && <span className="ordine-data">• Aperto: {o.chiusoIl}</span>*/}
+                          {o.dataOra && <span className="ordine-data">• Chiuso: {o.dataOra}</span>}
+                         
                         </div>
                       </div>
                       
