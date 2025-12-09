@@ -3078,7 +3078,7 @@ export default function GestioneMenuPage() {
                 <li key={item.id}>
                   <div className="prodotto-info">
                     <span className="prodotto-nome">{item.nome}</span>
-                    <span className="prodotto-prezzo">€ {item.prezzo.toFixed(2)}</span>
+                    <span className="prodotto-prezzo"> € {item.prezzo.toFixed(2)}</span>
                   </div>
                   <div className="prod-actions">
                     <button className="modifica" onClick={() => apriModifica(item)}>Modifica</button>
@@ -3099,8 +3099,9 @@ export default function GestioneMenuPage() {
             <input type="text" value={modificaNome} onChange={e => setModificaNome(e.target.value)} />
             <input type="number" value={modificaPrezzo} onChange={e => setModificaPrezzo(e.target.value)} step="0.01" />
             <div className="modal-buttons">
-              <button className="ok" onClick={salvaModifica}>Salva</button>
+              
               <button className="annulla" onClick={() => setShowModal(false)}>Chiudi</button>
+              <button className="ok" onClick={salvaModifica}>Salva</button>
             </div>
           </div>
         </div>
@@ -3174,12 +3175,13 @@ export default function GestioneMenuPage() {
             </div>
 
             <div className="modal-buttons">
+                <button className="btn-annulla" onClick={() => setShowModalVarianti(false)}>
+                Annulla
+              </button>
               <button className="btn-salva" onClick={aggiungiVariante}>
                 Aggiungi Variante
               </button>
-              <button className="btn-annulla" onClick={() => setShowModalVarianti(false)}>
-                Annulla
-              </button>
+            
             </div>
           </div>
         </div>
@@ -3242,12 +3244,13 @@ export default function GestioneMenuPage() {
             </div>
 
             <div className="modal-buttons">
+                  <button className="btn-annulla" onClick={() => setShowModalModificaVariante(false)}>
+                Annulla
+              </button>
               <button className="btn-salva" onClick={salvaModificaVariante}>
                 Salva Modifiche
               </button>
-              <button className="btn-annulla" onClick={() => setShowModalModificaVariante(false)}>
-                Annulla
-              </button>
+          
             </div>
           </div>
         </div>
@@ -3276,12 +3279,13 @@ export default function GestioneMenuPage() {
             </div>
 
             <div className="modal-buttons">
-              <button className="btn-conferma-elimina" onClick={confermaEliminaVariante}>
-                Elimina
-              </button>
-              <button className="btn-annulla" onClick={() => setShowModalConfermaElimina(false)}>
+                <button className="btn-annulla" onClick={() => setShowModalConfermaElimina(false)}>
                 Annulla
               </button>
+              <button className="btn-conferma-elimina" onClick={confermaEliminaVariante}>
+                Elimina Variante
+              </button>
+            
             </div>
           </div>
         </div>
@@ -3314,12 +3318,13 @@ export default function GestioneMenuPage() {
             </div>
 
             <div className="modal-buttons">
+               <button className="btn-annulla" onClick={() => setShowModalEliminaCategoria(false)}>
+                Annulla
+              </button>
               <button className="btn-conferma-elimina" onClick={confermaEliminaCategoria}>
                 Elimina Categoria
               </button>
-              <button className="btn-annulla" onClick={() => setShowModalEliminaCategoria(false)}>
-                Annulla
-              </button>
+             
             </div>
           </div>
         </div>
@@ -3351,12 +3356,13 @@ export default function GestioneMenuPage() {
             </div>
 
             <div className="modal-buttons">
+               <button className="btn-annulla" onClick={() => setShowModalEliminaProdotto(false)}>
+                Annulla
+              </button>
               <button className="btn-conferma-elimina" onClick={confermaEliminaProdotto}>
                 Elimina Prodotto
               </button>
-              <button className="btn-annulla" onClick={() => setShowModalEliminaProdotto(false)}>
-                Annulla
-              </button>
+             
             </div>
           </div>
         </div>
