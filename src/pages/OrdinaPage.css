@@ -597,7 +597,7 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  max-width: 500px;
+  max-width: 580px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
@@ -611,6 +611,7 @@
   margin-bottom: 15px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
+  background-color: #b9dcba;
 }
 
 .modal-varianti .modal-header h3 {
@@ -640,6 +641,7 @@
 
 .modal-varianti .modal-body {
   margin-bottom: 20px;
+
 }
 
 .info-text {
@@ -658,14 +660,15 @@
 }
 
 .variante-option {
+ 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 14px;
+  margin: 15px 0;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background: white;
+  background: rgb(230, 224, 224);
   transition: all 0.2s;
 }
 
@@ -686,7 +689,7 @@
 
 .variante-nome {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .variante-tipo {
@@ -699,11 +702,13 @@
 .variante-tipo.aggiunta {
   background: #e8f5e9;
   color: #2e7d32;
+  font-size: 16px;
 }
 
 .variante-tipo.rimozione {
-  background: #ffebee;
-  color: #c62828;
+  background: #ece8e9;
+  color: #eae4e4;
+  font-size: 16px;
 }
 
 .variante-controls button {
@@ -854,4 +859,78 @@
   0% { opacity: 1; }
   50% { opacity: 0.7; }
   100% { opacity: 1; }
+}
+
+
+
+
+
+/* 🔹 Stili per indicatore "No varianti" */
+.categoria-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.categoria-no-varianti {
+  margin-left: 10px;
+}
+
+.no-varianti-badge {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.no-varianti-badge::before {
+  content: "🚫";
+  margin-right: 5px;
+  font-size: 0.9rem;
+}
+
+/* 🔹 Stili per il pulsante varianti quando disabilitato */
+.varianti-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.varianti-btn.disabled {
+  display: none;
+}
+
+/* 🔹 Indicatore nella categoria che le varianti sono disabilitate */
+.categoria h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🔹 Stile per il piatto quando le varianti non sono disponibili */
+.card.no-varianti {
+  position: relative;
+}
+
+.card.no-varianti::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(248, 249, 250, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6c757d;
 }

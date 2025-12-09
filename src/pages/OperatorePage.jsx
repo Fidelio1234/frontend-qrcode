@@ -1360,9 +1360,9 @@ export default function OperatorePage() {
 
 
 
+// FUNZIONA MA CON ILTOTALE DEL TAVOLO COMPLETO , NON SINGOLO TOTALE TAVOLO 4
 
-
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+/*import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import './OperatorePage.css';
 
@@ -1774,7 +1774,7 @@ const formattaElementoOrdine = useCallback((item, index) => {
         <span className="prezzo">€ {prezzoTotale.toFixed(2)}</span>
       </div>
       
-      {/* ✅ VISUALIZZA VARIANTI */}
+      {/* ✅ VISUALIZZA VARIANTI *//*}
       {varianti.length > 0 && (
         <div className="varianti-container">
           {varianti.map((variante, idx) => (
@@ -1915,7 +1915,7 @@ const formattaElementoOrdine = useCallback((item, index) => {
                           <span className="ordine-stato" style={{ color: getStatoColore(o.stato) }}>
                             {getStatoTesto(o.stato)}
                           </span>
-                           {/*o.chiusoIl && <span className="ordine-data">• Aperto: {o.chiusoIl}</span>*/}
+                           {/*o.chiusoIl && <span className="ordine-data">• Aperto: {o.chiusoIl}</span>*//*}
                           {o.dataOra && <span className="ordine-data">• Chiuso: {o.dataOra}</span>}
                          
                         </div>
@@ -1940,6 +1940,725 @@ const formattaElementoOrdine = useCallback((item, index) => {
                 <div className="ordine-header">
                   <div className="ordine-info">
                     <span className="tavolo-numero">Tavolo {o.tavolo}</span>
+                    <span className="ordine-stato" style={{ color: getStatoColore(o.stato) }}>
+                      {getStatoTesto(o.stato)}
+                    </span>
+                    {o.dataOra && <span className="ordine-data">• {o.dataOra}</span>}
+                  </div>
+                  {(o.stato === 'in_attesa' || o.stato === 'stampato') && (
+                    <span className="badge-non-evaso">DA COMPLETARE</span>
+                  )}
+                </div>
+                
+                <ul className="ordine-dettagli">
+                  {o.ordinazione.map((item, i) => formattaElementoOrdine(item, i))}
+                </ul>
+                
+                <div className="ordine-totale-riga">
+                  <span>Totale ordine:</span>
+                  <strong>
+                    € {o.totale ? o.totale.toFixed(2) : 
+                      calcolaTotaleOrdineCompleto(o.ordinazione).toFixed(2)}
+                  </strong>
+                </div>
+                
+                {o.chiusoIl && (
+                  <div className="info-chiusura">
+                    Tavolo chiuso il: {o.chiusoIl}
+                  </div>
+                )}
+                
+                {(o.stato === 'in_attesa' || o.stato === 'stampato') && (
+                  <button className="button-evaso" onClick={() => evadiOrdine(o.id)}>
+                    Segna come completato
+                  </button>
+                )}
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+
+      {isChiusuraTavolo && ordiniFiltrati.length > 0 && (
+        <div className="totale-tavolo">
+          Totale Tavolo {tavoloCorrente}: € {totaleTavolo.toFixed(2)}
+        </div>
+      )}
+
+      {mostraModalChiusura && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h3>Impossibile Chiudere il Tavolo <strong>{tavoloCorrente}</strong></h3>
+            <p>Ci sono ancora <strong>{ordiniNonEvasi.length} ordine/i non completato/i</strong> per il tavolo {tavoloCorrente}.</p>
+            <p>Prima di chiudere il tavolo, assicurati di aver completato tutti gli ordini.</p>
+            
+            <div className="ordini-non-evasi-lista">
+              <h4>Ordini da completare:</h4>
+              <ul>
+                {ordiniNonEvasi.map(ordine => (
+                  <li key={ordine.id}>
+                    Ordine - {ordine.ordinazione.length} articoli
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="modal-buttons">
+              <button 
+                className="button-ok"
+                onClick={() => setMostraModalChiusura(false)}
+              >
+                Ho Capito
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostraModalConfermaChiusura && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h3>Conferma Chiusura Tavolo <strong>{tavoloCorrente}</strong></h3>
+           
+            <p>✅ Gli ordini verranno archiviati nell'area operatore sezione "Chiusi".</p>
+            <p>📋 Ricordati di stampare il totale prima di chiudere il Tavolo <strong>{tavoloCorrente}</strong>.</p>
+            
+            {ordiniFiltrati.length > 0 && (
+              <div className="dettagli-chiusura">
+                <h4>Dettagli ordini che verranno archiviati:</h4>
+                <ul>
+                  <li>Totale ordini: {ordiniFiltrati.length}</li>
+                  <li>Importo totale: € {totaleTavolo.toFixed(2)}</li>
+                  <li>Ordini completati: {ordiniFiltrati.filter(o => o.stato === 'evaso').length}</li>
+                  <li>Ordini in attesa: {ordiniFiltrati.filter(o => o.stato === 'in_attesa').length}</li>
+                </ul>
+              </div>
+            )}
+
+            <div className="modal-buttons">
+              <button 
+                className="button-annulla"
+                onClick={() => setMostraModalConfermaChiusura(false)}
+              >
+                Annulla
+              </button>
+              <button 
+                className="button-conferma"
+                onClick={confermaChiusuraTavolo}
+              >
+                Conferma Chiusura
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
+import './OperatorePage.css';
+
+function useQuery() {
+  const location = useLocation();
+  return new URLSearchParams(location.search);
+}
+
+export default function OperatorePage() {
+  const [ordini, setOrdini] = useState([]);
+  const [mostraModalChiusura, setMostraModalChiusura] = useState(false);
+  const [mostraModalConfermaChiusura, setMostraModalConfermaChiusura] = useState(false);
+  const [messaggioSuccesso, setMessaggioSuccesso] = useState('');
+  const [filtroStato, setFiltroStato] = useState('tutti');
+  const query = useQuery();
+  const tavoloFiltro = query.get('tavolo');
+
+  const tavoloCorrente = tavoloFiltro && tavoloFiltro !== 'null' ? tavoloFiltro : null;
+  const isAreaOperatore = !tavoloCorrente;
+  const isChiusuraTavolo = !!tavoloCorrente;
+
+  // 🔹 SPOSTA QUESTA FUNZIONE ALL'INIZIO, PRIMA DEI useMemo
+  const calcolaTotaleOrdineCompleto = useCallback((ordinazione) => {
+    return ordinazione.reduce((totale, item) => {
+      let prezzoUnitario = item.prezzo || 0;
+      let quantita = item.quantità || 1;
+      
+      // ✅ GESTIONE COPERTTO
+      if (item.prodotto && item.prodotto.toLowerCase().includes('coperto')) {
+        const match = item.prodotto.match(/x\s*(\d+)/i);
+        if (match) {
+          const numeroPersone = parseInt(match[1]);
+          return totale + (prezzoUnitario * numeroPersone);
+        }
+        return totale + prezzoUnitario;
+      }
+      
+      // ✅ AGGIUNGI VARIANTI SE PRESENTI
+      if (item.varianti && Array.isArray(item.varianti) && item.varianti.length > 0) {
+        const costoVarianti = item.varianti.reduce((sum, variante) => {
+          if (variante.tipo === 'aggiunta' && variante.costo > 0) {
+            return sum + (parseFloat(variante.costo) || 0);
+          }
+          return sum;
+        }, 0);
+        prezzoUnitario += costoVarianti;
+      }
+      
+      return totale + (prezzoUnitario * quantita);
+    }, 0);
+  }, []);
+
+  const caricaOrdini = useCallback(() => {
+    console.log('🔍 DEBUG: Chiamando /api/ordini per tavolo:', tavoloCorrente);
+    
+    fetch('https://qrcode-finale.onrender.com/api/ordini')
+      .then(res => {
+        if (!res.ok) throw new Error('Error loading orders');
+        return res.json();
+      })
+      .then(data => {
+        console.log('📊 DATI RICEVUTI DAL SERVER:');
+        data.forEach(o => {
+          console.log(`   Tavolo ${o.tavolo}: ${o.dataOra} (ID: ${o.id})`);
+        });
+        setOrdini(data);
+      })
+      .catch(err => {
+        console.error('❌ Error loading orders:', err);
+        setOrdini([]);
+      });
+  }, [tavoloCorrente]);
+
+  const caricaOrdiniCompleti = useCallback(() => {
+    console.log('🔍 DEBUG: Chiamando /api/ordini/completo');
+    
+    fetch('https://qrcode-finale.onrender.com/api/ordini/completo')
+      .then(res => {
+        if (!res.ok) throw new Error('Error loading complete orders');
+        return res.json();
+      })
+      .then(data => {
+        console.log('📋 Ordini COMPLETI ricevuti:', data.length);
+        
+        const ordiniOrdinati = data.sort((a, b) => {
+          const dataA = new Date(a.timestamp || a.chiusoIl || a.dataOra);
+          const dataB = new Date(b.timestamp || b.chiusoIl || b.dataOra);
+          return dataB - dataA;
+        });
+        
+        setOrdini(ordiniOrdinati);
+      })
+      .catch(err => {
+        console.error('❌ Error loading complete orders:', err);
+        setOrdini([]);
+      });
+  }, []);
+
+  const evadiOrdine = useCallback((id) => {
+    fetch(`https://qrcode-finale.onrender.com/api/ordini/${id}/evaso`, { 
+      method: 'POST' 
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error marking order as completed');
+        caricaOrdini();
+      })
+      .catch(err => {
+        console.error('❌ Error completing order:', err);
+        alert('Error marking order as completed');
+      });
+  }, [caricaOrdini]);
+
+  const verificaChiusuraTavolo = useCallback(() => {
+    if (!tavoloCorrente) {
+      alert('Select a table to close orders.');
+      return;
+    }
+
+    const ordiniDelTavolo = ordini.filter(o => o.tavolo.toString() === tavoloCorrente);
+    if (ordiniDelTavolo.length === 0) {
+      alert(`No orders for table ${tavoloCorrente}.`);
+      return;
+    }
+
+    const ordiniNonEvasi = ordiniDelTavolo.filter(o => o.stato !== 'evaso' && o.stato !== 'chiuso');
+    
+    if (ordiniNonEvasi.length > 0) {
+      setMostraModalChiusura(true);
+    } else {
+      setMostraModalConfermaChiusura(true);
+    }
+  }, [tavoloCorrente, ordini]);
+
+  const confermaChiusuraTavolo = useCallback(() => {
+    console.log('🔄 Attempting to close table:', tavoloCorrente);
+    
+    fetch(`https://qrcode-finale.onrender.com/api/ordini/tavolo/${tavoloCorrente}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error in server response');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('✅ Table closure response:', data);
+        caricaOrdini();
+        setMostraModalConfermaChiusura(false);
+        
+        localStorage.removeItem(`carrello_${tavoloCorrente}`);
+        localStorage.removeItem(`copertoConfermato_${tavoloCorrente}`);
+        localStorage.removeItem(`numeroPersone_${tavoloCorrente}`);
+        
+        localStorage.setItem(`carrello_${tavoloCorrente}`, '[]');
+        localStorage.setItem(`copertoConfermato_${tavoloCorrente}`, 'false');
+        
+        console.log('💾 Table closed - localStorage cleaned');
+        window.dispatchEvent(new Event('storage'));
+        
+        const chiusuraId = `chiusura_${Date.now()}_${tavoloCorrente}`;
+        setMessaggioSuccesso(`Table ${tavoloCorrente} closed! Orders have been archived (ID: ${chiusuraId}).`);
+      })
+      .catch(error => {
+        console.error('❌ Error closing table:', error);
+        setMostraModalConfermaChiusura(false);
+        alert('Error closing table: ' + error.message);
+      });
+  }, [tavoloCorrente, caricaOrdini]);
+
+  const chiudiTavolo = useCallback(() => {
+    verificaChiusuraTavolo();
+  }, [verificaChiusuraTavolo]);
+
+  const stampaTotaleTavolo = useCallback(async () => {
+    if (!tavoloCorrente) {
+      alert('Seleziona un tavolo per stampare il totale');
+      return;
+    }
+
+    try {
+      console.log(`🖨️ Richiesta stampa totale tavolo ${tavoloCorrente}...`);
+      
+      const response = await fetch(`https://qrcode-finale.onrender.com/api/ordini/tavolo/${tavoloCorrente}`);
+      const ordiniTavolo = await response.json();
+      
+      if (!ordiniTavolo || ordiniTavolo.length === 0) {
+        alert(`Nessun ordine trovato per il tavolo ${tavoloCorrente}`);
+        return;
+      }
+      
+      const totale = ordiniTavolo.reduce((tot, ord) => {
+        const totaleOrdine = ord.ordinazione.reduce((sum, item) => {
+          let prezzoProdotto = item.prezzo || 0;
+          
+          if (item.varianti && item.varianti.length > 0) {
+            const costoVarianti = item.varianti
+              .filter(v => v.tipo === 'aggiunta')
+              .reduce((sumVarianti, v) => sumVarianti + (v.costo || 0), 0);
+            prezzoProdotto += costoVarianti;
+          }
+          
+          return sum + (prezzoProdotto * item.quantità);
+        }, 0);
+        return tot + totaleOrdine;
+      }, 0);
+      
+      console.log('📊 Dati calcolati:', {
+        tavolo: tavoloCorrente,
+        ordini: ordiniTavolo.length,
+        totale: totale
+      });
+      
+      const stampaResponse = await fetch('http://localhost:3002/api/stampa-conto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ordini: ordiniTavolo,
+          tavolo: tavoloCorrente,
+          totale: totale
+        })
+      });
+      
+      const stampaResult = await stampaResponse.json();
+      
+      if (stampaResult.success) {
+        console.log('✅ Totale stampato con successo!');
+        setMessaggioSuccesso(`✅ Totale tavolo ${tavoloCorrente} stampato! Importo: € ${totale.toFixed(2)}`);
+      } else {
+        throw new Error(stampaResult.error || 'Errore durante la stampa');
+      }
+      
+    } catch (error) {
+      console.error('❌ Errore stampa totale:', error);
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('ECONNREFUSED')) {
+        alert('❌ Stampante non disponibile. Controlla che il servizio di stampa locale sia in esecuzione sulla porta 3002.');
+      } else {
+        alert('❌ Errore stampa totale: ' + error.message);
+      }
+    }
+  }, [tavoloCorrente]);
+
+  useEffect(() => {
+    console.log('🔄 Caricamento ordini - Modalità:', isAreaOperatore ? 'Operatore' : 'Tavolo ' + tavoloCorrente);
+    
+    const caricaOrdiniCorretti = () => {
+      if (isAreaOperatore) {
+        caricaOrdiniCompleti();
+      } else {
+        caricaOrdini();
+      }
+    };
+    
+    caricaOrdiniCorretti();
+    
+    const interval = setInterval(() => {
+      console.log('🔄 Auto-refresh attivo');
+      caricaOrdiniCorretti();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [isAreaOperatore, tavoloCorrente, caricaOrdini, caricaOrdiniCompleti]);
+
+  useEffect(() => {
+    if (messaggioSuccesso) {
+      const timer = setTimeout(() => setMessaggioSuccesso(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [messaggioSuccesso]);
+
+  const ordiniFiltrati = useMemo(() => {
+    return tavoloCorrente
+      ? ordini.filter(o => o.tavolo.toString() === tavoloCorrente)
+      : ordini.filter(o => {
+          if (filtroStato === 'tutti') return true;
+          return o.stato === filtroStato;
+        });
+  }, [tavoloCorrente, ordini, filtroStato]);
+
+
+
+  // 🔹 MODIFICA: Raggruppa per "batch" di chiusura
+  const ordiniPerBatchChiusura = useMemo(() => {
+    const result = {};
+    
+    if (isAreaOperatore && filtroStato === 'chiuso') {
+      const ordiniChiusi = ordiniFiltrati
+        .filter(o => o.stato === 'chiuso')
+        .sort((a, b) => {
+          const dataA = new Date(a.chiusoIl || a.dataOra || a.timestamp);
+          const dataB = new Date(b.chiusoIl || b.dataOra || b.timestamp);
+          return dataB - dataA;
+        });
+      
+      ordiniChiusi.forEach(ordine => {
+        const chiusuraTimestamp = ordine.chiusoIl || ordine.dataOra || ordine.timestamp;
+        const dataChiusura = new Date(chiusuraTimestamp);
+        
+        const dataArrotondata = new Date(
+          dataChiusura.getFullYear(),
+          dataChiusura.getMonth(),
+          dataChiusura.getDate(),
+          dataChiusura.getHours(),
+          dataChiusura.getMinutes()
+        );
+        
+        const batchKey = `${ordine.tavolo}_${dataArrotondata.getTime()}`;
+        
+        if (!result[batchKey]) {
+          result[batchKey] = {
+            tavolo: ordine.tavolo,
+            chiusoIl: dataChiusura,
+            ordini: [],
+            totale: 0
+          };
+        }
+        
+        result[batchKey].ordini.push(ordine);
+        
+        // 🔹 USA LA FUNZIONE DEFINITA SOPRA
+        const totaleOrdine = calcolaTotaleOrdineCompleto(ordine.ordinazione);
+        result[batchKey].totale += totaleOrdine;
+      });
+    }
+    
+    return result;
+  }, [isAreaOperatore, filtroStato, ordiniFiltrati, calcolaTotaleOrdineCompleto]);
+
+
+
+  const ordiniNonEvasi = useMemo(() => 
+    ordiniFiltrati.filter(o => o.stato !== 'evaso' && o.stato !== 'chiuso'),
+    [ordiniFiltrati]
+  );
+
+  const totaleTavolo = useMemo(() => 
+    ordiniFiltrati.reduce((totale, ordine) => {
+      const totaleOrdine = calcolaTotaleOrdineCompleto(ordine.ordinazione);
+      return totale + totaleOrdine;
+    }, 0),
+    [ordiniFiltrati, calcolaTotaleOrdineCompleto]
+  );
+
+  // 🔹 NUOVA FUNZIONE: Formatta la data della chiusura
+  const formattaDataChiusura = useCallback((data) => {
+    if (!data) return 'Data sconosciuta';
+    
+    const dataObj = new Date(data);
+    
+    const giorno = dataObj.getDate().toString().padStart(2, '0');
+    const mese = (dataObj.getMonth() + 1).toString().padStart(2, '0');
+    const anno = dataObj.getFullYear();
+    const ore = dataObj.getHours().toString().padStart(2, '0');
+    const minuti = dataObj.getMinutes().toString().padStart(2, '0');
+    
+    return `${giorno}/${mese}/${anno} ${ore}:${minuti}`;
+  }, []);
+
+  const formattaElementoOrdine = useCallback((item, index) => {
+    let nomeProdotto = item.prodotto;
+    let quantita = item.quantità || 1;
+    let prezzoUnitario = item.prezzo || 0;
+    
+    // ✅ GESTIONE SPECIALE PER COPERTTO - CORRETTA
+    if (item.prodotto && item.prodotto.toLowerCase().includes('coperto')) {
+      const match = item.prodotto.match(/x\s*(\d+)/i);
+      if (match) {
+        const numeroPersone = parseInt(match[1]);
+        const prezzoTotaleCoperto = prezzoUnitario * numeroPersone;
+        
+        return (
+          <li key={index} className="ordine-riga">
+            <div className="prodotto-principale">
+              <span className="quantita">{numeroPersone} x</span>
+              <span className="prodotto">Coperto</span>
+              <span className="prezzo">€ {prezzoTotaleCoperto.toFixed(2)}</span>
+            </div>
+            <div className="info-coperto">
+              <small>(€ {prezzoUnitario.toFixed(2)} per persona)</small>
+            </div>
+          </li>
+        );
+      } else {
+        nomeProdotto = 'Coperto';
+        quantita = 1;
+      }
+    } else {
+      nomeProdotto = item.prodotto.replace(/\s*x\s*\d+\s*$/i, '');
+    }
+    
+    const varianti = item.varianti || [];
+    let prezzoConVarianti = prezzoUnitario;
+    
+    if (varianti.length > 0) {
+      const costoVarianti = varianti.reduce((somma, variante) => {
+        if (variante.tipo === 'aggiunta' && variante.costo > 0) {
+          return somma + (variante.costo || 0);
+        }
+        return somma;
+      }, 0);
+      prezzoConVarianti += costoVarianti;
+    }
+    
+    const prezzoTotale = prezzoConVarianti * quantita;
+    
+    return (
+      <li key={index} className="ordine-riga">
+        <div className="prodotto-principale">
+          <span className="quantita">{quantita} x</span>
+          <span className="prodotto">{nomeProdotto}</span>
+          <span className="prezzo">€ {prezzoTotale.toFixed(2)}</span>
+        </div>
+        
+        {varianti.length > 0 && (
+          <div className="varianti-container">
+            {varianti.map((variante, idx) => (
+              <div 
+                key={`${index}-${variante.id || variante.nome || idx}`} 
+                className={`variante-item ${variante.tipo}`}
+              >
+                <span className="variante-icon">
+                  {variante.tipo === 'aggiunta' ? '➕' : '➖'}
+                </span>
+                <span className="variante-nome">{variante.nome}</span>
+                {variante.tipo === 'aggiunta' && variante.costo > 0 && (
+                  <span className="variante-costo">+€{variante.costo.toFixed(2)}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </li>
+    );
+  }, []);
+
+  const getStatoColore = useCallback((stato) => {
+    switch(stato) {
+      case 'in_attesa': return '#3498db';
+      case 'evaso': return '#27ae60';
+      case 'chiuso': return '#1a6cd1ff';
+      default: return '#3498db';
+    }
+  }, []);
+
+  const getStatoTesto = useCallback((stato) => {
+    switch(stato) {
+      case 'in_attesa': return 'IN ATTESA';
+      case 'evaso': return 'COMPLETATO';
+      case 'chiuso': return 'CHIUSO';
+      default: return stato;
+    }
+  }, []);
+
+  return (
+    <div className={`operatore-container ${isAreaOperatore ? 'area-operatore' : 'chiusura-tavolo'}`}>
+      <h2>
+        {tavoloCorrente ? `Ordini - Tavolo ${tavoloCorrente}` : 'Area Operatore - Tutti gli Ordini'}
+      </h2>
+
+      {messaggioSuccesso && (
+        <div className="messaggio-successo">
+          {messaggioSuccesso}
+        </div>
+      )}
+
+      {isAreaOperatore && (
+        <div className="filtri-stato">
+          <button 
+            className={`filtro-btn ${filtroStato === 'in_attesa' ? 'attivo' : ''}`}
+            onClick={() => setFiltroStato('in_attesa')}
+          >
+            In Attesa
+          </button>
+          <button 
+            className={`filtro-btn ${filtroStato === 'evaso' ? 'attivo' : ''}`}
+            onClick={() => setFiltroStato('evaso')}
+          >
+            Completati
+          </button>
+          <button 
+            className={`filtro-btn ${filtroStato === 'chiuso' ? 'attivo' : ''}`}
+            onClick={() => setFiltroStato('chiuso')}
+          >
+            Chiusi
+          </button>
+        </div>
+      )}
+
+      {tavoloCorrente && (
+        <div className="tavolo-header">
+          <button className="button-chiudi" onClick={chiudiTavolo}>
+            Chiudi Tavolo {tavoloCorrente}
+          </button>
+
+          <button 
+            className="button-stampa-totale" 
+            onClick={stampaTotaleTavolo}
+            disabled={ordiniFiltrati.length === 0}
+          >
+            🖨️ Stampa Totale Tavolo
+          </button>
+
+          {ordiniNonEvasi.length > 0 && (
+            <div className="avviso-non-evasi">
+              ⚠️ {ordiniNonEvasi.length} ordine/i non completato/i
+            </div>
+          )}
+        </div>
+      )}
+
+      {ordiniFiltrati.length === 0 && (
+        <p className="nessun-ordine">
+          {isAreaOperatore ? 'Nessun ordine trovato' : 'Nessun ordine attivo per questo tavolo'}
+        </p>
+      )}
+
+      <div className="ordini-scroll">
+        <ul className="ordini-list">
+          {isAreaOperatore && filtroStato === 'chiuso' ? (
+            Object.keys(ordiniPerBatchChiusura).map(batchKey => {
+              const batch = ordiniPerBatchChiusura[batchKey];
+              const totaleBatch = batch.totale;
+              
+              return (
+                <li key={batchKey} className="tavolo-chiuso-group">
+                  <div className="tavolo-chiuso-header">
+                    <h1>Tavolo {batch.tavolo}  {formattaDataChiusura}</h1>
+                    <div className="totale-tavolo-chiuso">
+                      💰 Totale della chiusura: € {totaleBatch.toFixed(2)}
+                      <small style={{display: 'block', fontSize: '0.8rem', opacity: 0.8}}>
+                        ({batch.ordini.length} ordini in questa chiusura)
+                      </small>
+                    </div>
+                  </div>
+                  
+                  {batch.ordini.map(o => (
+                    <div key={o.id} className="ordine-item chiuso" style={{ borderLeftColor: getStatoColore(o.stato) }}>
+                      <div className="ordine-header">
+                        <div className="ordine-info">
+                          <span className="ordine-stato" style={{ color: getStatoColore(o.stato) }}>
+                            {getStatoTesto(o.stato)}
+                          </span>
+                          <span className="ordine-data">
+                            • Chiuso : {formattaDataChiusura(o.dataOra || o.timestamp)}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <ul className="ordine-dettagli">
+                        {o.ordinazione.map((item, i) => formattaElementoOrdine(item, i))}
+                      </ul>
+                      
+                      <div className="ordine-totale">
+                        Totale Ordine: € {o.totale ? o.totale.toFixed(2) : 
+                          calcolaTotaleOrdineCompleto(o.ordinazione).toFixed(2)}
+                      </div>
+                    </div>
+                  ))}
+                </li>
+              );
+            })
+          ) : (
+            ordiniFiltrati.map(o => (
+              <li key={o.id} className="ordine-item" style={{ borderLeftColor: getStatoColore(o.stato) }}>
+                <div className="ordine-header">
+                  <div className="ordine-info">
+                    <h2 className="tavolo-numero">Tavolo {o.tavolo}</h2>
                     <span className="ordine-stato" style={{ color: getStatoColore(o.stato) }}>
                       {getStatoTesto(o.stato)}
                     </span>

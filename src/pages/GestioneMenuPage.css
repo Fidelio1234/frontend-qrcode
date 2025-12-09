@@ -872,3 +872,149 @@
     align-self: flex-end;
   }
 }
+
+
+
+
+
+
+
+
+
+/* 🔹 Stili per il toggle delle varianti per categoria */
+.categoria-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.toggle-varianti-categoria {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f8f9fa;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+/* Switch style */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #28a745;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #28a745;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.toggle-status {
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  min-width: 35px;
+  text-align: center;
+}
+
+.toggle-status.abilitato {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.toggle-status.disabilitato {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .categoria-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .toggle-varianti-categoria {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+  
+  .categoria-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .categoria-actions {
+    align-self: flex-end;
+  }
+}
+
+/* Stile per categoria vuota */
+.categoria-vuota {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 10px 0;
+  border: 2px dashed #dee2e6;
+  color: #6c757d;
+}
+
+.categoria-vuota p {
+  margin: 0;
+  font-style: italic;
+}

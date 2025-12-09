@@ -132,7 +132,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 1px 0;
   border-bottom: 1px solid #f0f0f0;
   font-size: 1.1rem; /* AUMENTATO da 1rem */
 }
@@ -429,14 +429,18 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+
 }
 
 .tavolo-numero {
+background-color: #d8e1e6;
   font-weight: 700;
   font-size: 1.1rem;
+ 
 }
 
 .ordine-stato {
+
   font-weight: 600;
   font-size: 0.9rem;
   padding: 2px 8px;
@@ -446,7 +450,7 @@
 
 .ordine-data {
   font-size: 1.20rem;
-  color: #7f8c8d;
+  color: #0b0b0b;
   font-style: italic;
 }
 
@@ -731,11 +735,6 @@
   color: #333;
 }
 
-/* Migliora la visualizzazione dei dettagli ordine */
-.ordine-dettagli {
-  margin: 10px 0;
-  padding-left: 15px;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
